@@ -1,0 +1,58 @@
+/* Sidebar */
+#sidebar-wrapper{
+    height: 100%;
+    width: 0;
+    z-index: 1; /* Stay on top */
+    position: absolute;
+    overflow-y: hidden; /* ukrywa content jesli content jest za dlugi*/
+    background: #2c3e50;
+    opacity: 0.9;
+}
+
+/* Main content */
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+/* Zmiana szerokosci sidebara */
+#wrapper.menuDisplayed #sidebar-wrapper{
+    width: 250px;
+}
+
+/* Zmiana paddingu żeby po wysunieciu sidebara, content nie byl przykryty tylko przesunal sie wraz z sidebarem*/
+#wrapper.menuDisplayed #page-content-wrapper{
+    padding-left: 250px;
+}
+
+/* Sidebar styling */
+.sidebar-nav{
+    padding: 0;
+    list-style: none; /* brak punkcikow w listach itp */
+}
+
+.sidebar-nav li{
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a{
+    display: block;
+    text-decoration: none;
+    color: #ddd;
+}
+
+.sidebar-nav li a:hover{
+    background: #16A085;
+}
+
+.credentials{
+    color: #EBCFB2;
+    font-size: 26px;
+}
+
+.logo {
+    position: absolute;
+    bottom: 0;
+}
