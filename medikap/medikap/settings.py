@@ -37,10 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #crispy-forms
+    'crispy_forms',
     #myapps
     'board.apps.BoardConfig',
     'users.apps.UsersConfig',
     'clients.apps.ClientsConfig',
+    'msg.apps.MsgConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -128,3 +132,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Dostep do mediow z poziomu przegladarki
 MEDIA_URL = '/media/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

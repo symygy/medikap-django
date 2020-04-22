@@ -1,0 +1,28 @@
+{% extends 'board/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend class="col-12">Aktualizowanie danych klienta</legend>
+        <div class="form-row">
+            <div class="col-lg-2">
+                {{ form.odbiorca | as_crispy_field}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-3">
+                {{ form.temat | as_crispy_field}}
+            </div>
+        </div>
+         <div class="form-row">
+            <div class="col-lg-4">
+                {{ form.wiadomosc | as_crispy_field}}
+            </div>
+        </div>
+    </fieldset>
+    <button type="submit" class="btn btn-info"><i class="far fa-edit"></i> Wyślij </button>
+</form>
+
+{% endblock%}

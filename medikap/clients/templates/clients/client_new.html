@@ -1,0 +1,50 @@
+{% extends 'board/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend class="col-12">Aktualizowanie danych klienta</legend>
+        <div class="form-row">
+            <div class="col-lg-2">
+                {{ form.imie | as_crispy_field}}
+            </div>
+            <div class="col-lg-2">
+                {{ form.nazwisko | as_crispy_field}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-2">
+                {{ form.data_badania | as_crispy_field}}
+            </div>
+            <div class="col-lg-2">
+                {{ form.data_waznosci_badania | as_crispy_field}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-2">
+                {{ form.numer_telefonu | as_crispy_field}}
+            </div>
+            <div class="col-lg-2">
+                {{ form.email | as_crispy_field}}
+            </div>
+
+        </div>
+        <div class="form-row">
+            <div class="col-lg-2">
+                {{ form.nr_rejestr | as_crispy_field}}
+            </div>
+            <div class="col-lg-2">
+                {{ form.podstawa_prawna | as_crispy_field}}
+            </div>
+        </div>
+        <div class="col-lg-4">
+            {{ form.komentarz | as_crispy_field}}
+        </div>
+    </fieldset>
+    <button type="submit" class="btn btn-info"><i class="far fa-edit"></i> Dodaj klienta</button>
+
+</form>
+
+{% endblock%}

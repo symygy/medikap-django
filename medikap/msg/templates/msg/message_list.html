@@ -1,0 +1,57 @@
+{% extends 'board/base.html' %}
+
+{% block content %}
+<h2>Lista wiadomości</h2>
+<div class="table-responsive">
+    <table class="table table-striped borderless text-center">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col"></th>
+                {% for field in form %}
+                <th scope="col">{{ field.label_tag }} </th>
+                {% endfor %}
+            </tr>
+        </thead>
+            <tbody>
+            {% for msg in inbox_messages %}
+                <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                    <td><a href="#" data-toggle="modal" data-target="#modal{{ msg.id }}">{{ msg.temat }}</a></td>
+                    <td>{{ msg.nadawca }}</td>
+                    <td>
+                        {% if msg.wiadomosc|length > 50 %}
+                            {{msg.wiadomosc|truncatechars:50}}
+                        {% else %}
+                            {{msg.wiadomosc}}
+                        {% endif %}
+                    </td>
+                    <td>{{ msg.data_utworzenia }}</td>
+                </tr>
+                        <!-- Modal -->
+                <div class="modal fade" id="modal{{ msg.id }}" tabindex="-1" role="dialog" aria-labelledby="msgModal" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Wiadomość od użytkownika: {{ msg.nadawca }} </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        {{ msg.wiadomosc }}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                        <a href="{% url 'msg:reply' %}" type="button" class="btn btn-primary">Odpowiedz</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            {% endfor %}
+            </tbody>
+        </table>
+</div>
+
+
+
+{% endblock %}
