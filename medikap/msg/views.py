@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from .models import Message
 from .forms import InboxMsgForm, NewMsgForm, ReplyMsgForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 import datetime
 
 class Inbox(generic.View):
@@ -31,6 +31,7 @@ class NewMessage(generic.CreateView):
 		return super().form_valid(form)
 
 class ReplyMessage(generic.View):
+	# View can be used to display messages as mootstrap modals
 	model = Message
 	form_class = ReplyMsgForm
 	template_name = 'msg/message_reply.html'
@@ -54,11 +55,11 @@ class ReplyMessage(generic.View):
 			obj.data_utworzenia = datetime.date.today()
 			obj.odbiorca = choosen_msg.nadawca
 			obj.save()
-			# return super().form_valid(form)
 			return redirect ('msg:inbox')
 
 		return render(request, self.template_name, {'form' : form})
 
-
-# https://stackoverflow.com/questions/42111303/pass-django-variables-between-view-functions
-# https://stackoverflow.com/questions/32787838/how-to-pass-data-between-django-views/32787887
+class DeleteMessage(generic.DeleteView):
+	model = Message
+	template_name_suffix = "_delete"
+	success_url = reverse_lazy('msg:inbox')

@@ -10,3 +10,5 @@ class Message(models.Model):
 
 	def __str__(self):
 		return f'msg id: {self.id} -> {self.nadawca} -> {self.odbiorca}: {self.temat}'
+
+	# https: // github.com / arneb / django - messages

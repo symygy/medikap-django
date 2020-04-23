@@ -1,0 +1,11 @@
+{% extends 'board/base.html' %}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    <legend class="border-bottom mb-4">Usuwanie wiadomości </legend>
+    <p>Czy na pewno chcesz usunąć wiadomość?</p>
+    <input class="btn btn-secondary" type="submit" value="Potwierdź">
+    <input class="btn btn-secondary" type="button" value="Anuluj" onClick="javascript:history.go(-1);">
+</form>
+{% endblock content %}
+

@@ -20,24 +20,6 @@
 </head>
 
 <body>
-<!--
-<div class="container-fluid grnd">
-    <div class="row justify-content-center">
-        <div class="col-10 col-sm-6 col-xl-3 frm">
-            <h2 class="login">Login</h2>
-            <form method="post" action="">
-                {% csrf_token %}
-                {# A more "HTML" way of creating the login form#}
-                <p class="login-item"><label for="username">Username</label><br>
-                <input type="text" name="username" placeholder="nazwa użytkownika"></p>
-                <p class="login-item"><label for="password">Password</label><br>
-                <input type="password" name="password" placeholder="hasło"></p>
-                <p class="button"><input class="btn btn-info" type="submit" name="Login" value="Login"></p>
-            </form>
-        </div>
-    </div>
-</div>
--->
 <div class="container-fluid background">
     <div class="row justify-content-center">
         <div class="frm text-center">
@@ -47,19 +29,22 @@
             <div>
                 <img src="{% static 'board/logo.png'%}" alt="logo">
             </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Nazwa użytkownika</span>
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Nazwa użytkownika</span>
+                    </div>
+                    <input type="text" name="username" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
-                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon2">Hasło</span>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2">Hasło</span>
+                    </div>
+                    <input type="password" name="password" class="form-control" aria-label="Password" aria-describedby="basic-addon1">
                 </div>
-                <input type="text" class="form-control" aria-label="Password" aria-describedby="basic-addon1">
-            </div>
-            <p class="button"><input class="btn btn-light" type="submit" name="Login" value="Zaloguj"></p>
+                <p class="button"><input class="btn btn-light" type="submit" name="Login" value="Zaloguj"></p>
+            </form>
         </div>
     </div>
 </div>
