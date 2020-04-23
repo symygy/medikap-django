@@ -8,3 +8,5 @@ class Message(models.Model):
 	wiadomosc = models.TextField("wiadomość")
 	data_utworzenia = models.DateField()
 
+	def __str__(self):
+		return f'msg id: {self.id} -> {self.nadawca} -> {self.odbiorca}: {self.temat}'

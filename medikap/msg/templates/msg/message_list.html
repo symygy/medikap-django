@@ -1,7 +1,7 @@
 {% extends 'board/base.html' %}
 
 {% block content %}
-<h2>Lista wiadomości</h2>
+<h2>Skrzynka odbiorcza</h2>
 <div class="table-responsive">
     <table class="table table-striped borderless text-center">
         <thead class="thead-dark">
@@ -42,7 +42,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                        <a href="{% url 'msg:reply' %}" type="button" class="btn btn-primary">Odpowiedz</a>
+                        <a href="{% url 'msg:reply' msg_id=msg.id %}" type="button" class="btn btn-primary">Odpowiedz</a>
                       </div>
                     </div>
                   </div>

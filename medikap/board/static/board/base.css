@@ -3,13 +3,14 @@
     height: 5%;
 }
 
-.sidebar-toggle{
+.navbar-elements{
     text-decoration: none;
-    color: #ddd;
+    color: #bbb;
 }
 
-.sidebar-toggle:hover{
+.navbar-elements:hover{
     color: #2c3e50;
+    text-decoration: none;
 }
 
 /* Sidebar */

@@ -1,0 +1,31 @@
+.background {
+    background: url('../users/background.jpg') no-repeat;
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+}
+
+.frm {
+    position: absolute;
+    top: 30vh;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 70px 0px #000;
+    background-color: #d1d1d1;
+}
+
+.login {
+    font-family: 'Adamina';
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-item {
+    font-family: 'Adamina';
+    text-align: center;
+}
+
+.button {
+    font-family: 'Adamina';
+    margin-top: 40px;
+}

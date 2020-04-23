@@ -11,3 +11,8 @@ class NewMsgForm(forms.ModelForm):
 	class Meta:
 		model = Message
 		fields = ['odbiorca', 'temat', 'wiadomosc']
+
+class ReplyMsgForm(forms.ModelForm):
+	class Meta:
+		model = Message
+		fields = ['temat', 'wiadomosc']
