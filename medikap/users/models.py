@@ -12,8 +12,8 @@ class Profile(models.Model):
 		return f'{self.user.username}'
 
 	# Nadpisujemy metode save zeby zmieniala rozmiar avatara, kiedy ktos doda plik wiekszy niz 300x300 px
-	def save(self):
-		super().save()
+	def save(self, *args, **kwargs):
+		super(Profile, self).save(*args, **kwargs)
 		img = Image.open(self.profile_image.path)
 
 		if img.height > 150 or img.width > 150:
