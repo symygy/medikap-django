@@ -1,0 +1,46 @@
+{% extends 'board/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="card" style="width: 50rem;">
+        <div class="card-body">
+            <h5 class="card-title">Temat: {{ current_msg.temat }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Od: {{ current_msg.nadawca }}</h6>
+            <p class="card-text">{{ current_msg.wiadomosc }}</p>
+
+            <a href="{% url 'msg:inbox' %}" class="btn btn-secondary"><i class="fas fa-long-arrow-alt-left"></i> Wróć</a>
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseReplyForm" aria-expanded="false" aria-controls="collapseReplyForm"><i class="far fa-edit"></i> Napisz odpowiedź </button>
+            <a href="{% url 'msg:delete' pk=current_msg.id %}" type="button" class="btn btn-danger mr-auto"><i class="far fa-trash-alt"></i></a>
+        </div>
+    </div>
+<p></p>
+<div class="collapse" id="collapseReplyForm"">
+    <div class="card" style="width: 50rem;">
+        <div class="card-body">
+            <form method="post">
+            {% csrf_token %}
+                <fieldset>
+                    <h5 class="card-title">Napisz odpowiedź</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        <div class="form-row">
+                            <div class="col-lg-3">
+                                {{ form.temat | as_crispy_field}}
+                            </div>
+                        </div>
+                    </h6>
+                    <p class="card-text">
+                        <div class="form-row">
+                            <div class="col-lg-8 col-xl-12">
+                                {{ form.wiadomosc | as_crispy_field}}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-info"><i class="fas fa-paper-plane"></i> Wyślij </button>
+                    </p>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock%}

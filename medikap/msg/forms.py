@@ -5,7 +5,7 @@ class InboxMsgForm(forms.ModelForm):
 	class Meta:
 		model = Message
 		fields = '__all__'
-		exclude = ['odbiorca']
+		exclude = ['odbiorca', 'data_utworzenia', 'data_odpowiedzi']
 
 class NewMsgForm(forms.ModelForm):
 	class Meta:
