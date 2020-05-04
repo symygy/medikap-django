@@ -1,7 +1,6 @@
-<form method="post">
-    {% csrf_token %}
+{% load crispy_forms_tags %}
+
     <fieldset>
-        <legend class="col-12">Aktualizowanie danych klienta</legend>
         <div class="form-row">
             <div class="col-lg-2">
                 {{ form.imie | as_crispy_field}}
@@ -25,7 +24,6 @@
             <div class="col-lg-2">
                 {{ form.email | as_crispy_field}}
             </div>
-
         </div>
         <div class="form-row">
             <div class="col-lg-2">
@@ -35,13 +33,12 @@
                 {{ form.podstawa_prawna | as_crispy_field}}
             </div>
         </div>
+        <div class="form-row">
+            <div class="col-lg-4">
+                {{ form.pracodawca | as_crispy_field}}
+            </div>
+        </div>
         <div class="col-lg-4">
             {{ form.komentarz | as_crispy_field}}
         </div>
-        <div class="col-lg-4">
-            {{ form.badany_60 | as_crispy_field}}
-        </div>
     </fieldset>
-    <button type="submit" class="btn btn-info"><i class="far fa-edit"></i> Aktualizuj dane</button>
-    <a href="{% url 'clients:delete' client.id %}" class="btn btn-secondary"><i class="far fa-trash-alt"></i> Usuń </a>
-</form>

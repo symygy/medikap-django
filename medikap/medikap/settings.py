@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'clients.apps.ClientsConfig',
     'msg.apps.MsgConfig',
+    'companies.apps.CompaniesConfig',
 
 ]
 

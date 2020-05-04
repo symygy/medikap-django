@@ -24,6 +24,7 @@
             </button>
             <div class="text-right">
                 <button class="btn btn-light" type="button"><a class="navbar-elements" href="{% url 'clients:list' %}"><i class="far fa-list-alt"></i> lista klientów </a></button>
+                <button class="btn btn-light" type="button"><a class="navbar-elements" href="{% url 'companies:list' %}"><i class="far fa-address-book"></i> baza firm </a></button>
                 <button class="btn btn-light" type="button">
                     <a class="navbar-elements" href="{% url 'msg:inbox' %}">
                         <i class="fas fa-inbox"></i>
@@ -51,6 +52,7 @@
             </div>
             <ul class="sidebar-nav">
                 <li><a class="" href="{% url 'clients:new' %}"><i class="far fa-plus-square"></i> Dodaj klienta</a></li>
+                <li><a class="" href="{% url 'companies:new' %}"><i class="far fa-plus-square"></i> Dodaj firmę</a></li>
                 <li><a class="" href="{% url 'msg:new' %}"><i class="far fa-envelope"></i> Wyślij wiadomość</a></li>
                 <li><a class="" href="#"><i class="fas fa-file-invoice-dollar"></i> Przygotuj fakturę</a></li>
             </ul>

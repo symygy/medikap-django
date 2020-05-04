@@ -1,11 +1,11 @@
 {% extends 'board/base.html' %}
 
 {% block content %}
-    <legend class="col-12">Aktualizowanie danych klienta</legend>
+    <legend class="col-12">Aktualizowanie danych firmy</legend>
     <p></p>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% include 'clients/client_base_form.html' %}
+        {% include 'companies/company_base_form.html' %}
         <button type="submit" class="btn btn-info"><i class="far fa-edit"></i> Aktualizuj dane</button>
         <a href="{% url 'clients:delete' client.id %}" class="btn btn-secondary"><i class="far fa-trash-alt"></i> Usuń </a>
     </form>
