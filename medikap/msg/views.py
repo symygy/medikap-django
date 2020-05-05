@@ -32,35 +32,6 @@ class NewMessage(generic.CreateView):
 		obj.save()
 		return super().form_valid(form)
 
-# class ReplyMessage(generic.View):
-# 	# View can be used to display messages as mootstrap modals
-# 	model = Message
-# 	form_class = ReplyMsgForm
-# 	template_name = 'msg/message_reply.html'
-# 	success_url = reverse_lazy("msg:inbox")
-#
-# 	def get(self, request, msg_id):
-# 		form = self.form_class(None)
-# 		current_msg = Message.objects.get(id=msg_id)
-# 		context = {
-# 			'form' : form,
-# 			'current_msg' : current_msg,
-# 		}
-# 		return render(request, self.template_name, context)
-#
-# 	def post(self, request, msg_id):
-# 		form = self.form_class(request.POST)
-# 		choosen_msg = Message.objects.get(id=msg_id)
-# 		if form.is_valid():
-# 			obj = form.save(commit=False)
-# 			obj.nadawca = self.request.user
-# 			obj.data_utworzenia = datetime.date.today()
-# 			obj.odbiorca = choosen_msg.nadawca
-# 			obj.save()
-# 			return redirect ('msg:inbox')
-#
-# 		return render(request, self.template_name, {'form' : form})
-
 class ReplyMessage(generic.View):
 	model = Message
 	form_class = ReplyMsgForm

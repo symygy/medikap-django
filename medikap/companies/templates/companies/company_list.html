@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>test</h1>
-</body>
-</html>
+{% extends 'board/base.html' %}
+
+{% block content %}
+<h2>Baza firm</h2>
+<div class="table-responsive">
+    <table class="table table-striped borderless text-center">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col"></th>
+                {% for field in form %}
+                <th scope="col">{{ field.label_tag }} </th>
+                {% endfor %}
+            </tr>
+        </thead>
+            <tbody>
+            {% for company in all_companies %}
+                <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                    <td><a href="{% url 'companies:detail' company_id=company.id %}">{{ company.nazwa  }}</a></td>
+                    <td>{{ company.nip  }}</td>
+                    <td>{{ company.regon  }}</td>
+                    <td>{{ company.ulica  }}</td>
+                    <td>{{ company.miasto  }}</td>
+                    <td>{{ company.kod_pocztowy  }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+</div>
+{% endblock %}

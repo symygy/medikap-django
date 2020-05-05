@@ -1,14 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import Company
+from .models import Company, File
+from .forms import CompanyListForm, UploadFileForm, DetailForm
+from django.http import JsonResponse
+from clients.models import Client
 
 class CompanyList(generic.View):
     template_name = 'companies/company_list.html'
+    form = CompanyListForm
 
     def get(self, request):
         all_companies = Company.objects.all()
         context = {
+            'form' : self.form,
             'all_companies' : all_companies,
         }
         return render(request, self.template_name, context)
@@ -18,3 +23,61 @@ class NewCompany(generic.CreateView):
     template_name_suffix = "_new"
     fields = "__all__"
     success_url = reverse_lazy('companies:list')
+
+# class UpdateCompany(generic.UpdateView):
+#     model = Company
+#     # template_name_suffix = "_update"
+#     fields = '__all__'
+#     success_url = reverse_lazy('companies:list')
+
+
+class DetailsCompany(generic.View):
+    template_name = 'companies/company_detail.html'
+    form_class = DetailForm
+    form_class2 = UploadFileForm
+    success_url = reverse_lazy("companies:list")
+
+    def get(self, request, company_id):
+        employee_list = Client.objects.all().filter(pracodawca=company_id)
+        file_list = File.objects.all().filter(firma=company_id)
+        detailed_company = get_object_or_404(Company, id=company_id)
+        form = self.form_class(instance=detailed_company)
+
+        context = {
+            'form': form,
+            'detailed_company': detailed_company,
+            'employee_list' : employee_list,
+            'file_list' : file_list
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, company_id):
+        detailed_company = get_object_or_404(Company, id=company_id)
+        form = self.form_class(request.POST, instance=detailed_company)
+        if form.is_valid():
+            form.save()
+            return redirect('companies:list')
+
+#
+# class UploadFile(generic.View):
+#     template_name = 'companies/file_new.html'
+#
+#     def get(self, request):
+#         files = File.objects.all()
+#         return render(request, self.template_name, { 'files' : files })
+#
+#     def post(self, request):
+#         form = UploadFileForm(self.request.POST, self.request.FILES)
+#         if form.is_valid():
+#             files = form.save()
+#             data = {
+#                 'is_valid' : True,
+#                 'name' : files.plik.name,
+#                 'url' : files.plik.url
+#             }
+#         else:
+#             data = {'is_valid' : False}
+#
+#         return JsonResponse(data)
+
+

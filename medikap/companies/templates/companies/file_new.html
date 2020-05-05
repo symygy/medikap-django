@@ -1,0 +1,20 @@
+{% extends 'board/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <legend class="col-12">Dodawanie nowych plików</legend>
+    <p></p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset>
+            <div class="form-row">
+                <div class="col-lg-4">
+                    {{ form.plik | as_crispy_field}}
+                    {{ form.firma | as_crispy_field}}
+                </div>
+            </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-info"><i class="far fa-edit"></i> Dodaj firmę</button>
+    </form>
+{% endblock%}
+

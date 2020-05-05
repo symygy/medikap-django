@@ -1,0 +1,53 @@
+{% extends 'board/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<legend class="col-12">Informacje o firmie</legend>
+<div class="container-fluid">
+    <div class="row">
+        <div class="card col-4" >
+            <div class="card-body">
+                <h5 class="card-title">Aktualizowanie danych</h5>
+                <p class="card-text">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'companies/company_base_form.html' %}
+                        <button type="submit" class="btn btn-info"><i class="far fa-edit"></i> Aktualizuj dane</button>
+
+                    </form>
+                </p>
+            </div>
+        </div>
+
+        <div class="card col-4" >
+            <div class="card-body">
+                <h5 class="card-title">Pracownicy</h5>
+                <p class="card-text">
+                    {% for employee in employee_list %}
+                        <p>{{ employee.imie }} {{ employee.nazwisko }}</p>
+                    {% endfor%}
+                </p>
+            </div>
+        </div>
+
+        <div class="card col-4" >
+            <div class="card-body">
+                <h5 class="card-title">Dodane pliki</h5>
+                <p class="card-text">
+                    {% for file in file_list %}
+                        <p> #{{ forloop.counter }} <a href="{{ file.plik }}">{{ file.plik }}</a></p>
+                    {% endfor %}
+                </p>
+                <p>
+                                    <button type="submit" class="btn btn-info"><i class="far fa-edit"></i> Dodaj firmę</button>
+
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock%}
