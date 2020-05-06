@@ -11,8 +11,7 @@
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% include 'companies/company_base_form.html' %}
-                        <button type="submit" class="btn btn-info"><i class="far fa-edit"></i> Aktualizuj dane</button>
-
+                        <button type="submit" name="update-data" class="btn btn-info"><i class="far fa-edit"></i> Aktualizuj dane</button>
                     </form>
                 </p>
             </div>
@@ -33,13 +32,33 @@
             <div class="card-body">
                 <h5 class="card-title">Dodane pliki</h5>
                 <p class="card-text">
-                    {% for file in file_list %}
-                        <p> #{{ forloop.counter }} <a href="{{ file.plik }}">{{ file.plik }}</a></p>
-                    {% endfor %}
+                    <div class="table-responsive">
+                        <table class="table table-striped borderless text-center">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col"> nazwa </th>
+                                    <th scope="col"> data dodania </th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                {% for file in file_list %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td><a href="{{ file.plik }}">{{ file }}</a></td>
+                                        <td>{{ file.data_dodania  }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                        </table>
+                    </div>
                 </p>
                 <p>
-                                    <button type="submit" class="btn btn-info"><i class="far fa-edit"></i> Dodaj firmę</button>
-
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="document">
+                        <button type="submit" name="add-files" class="btn btn-info"><i class="far fa-edit"></i> Dodaj pliki </button>
+                    </form>
                 </p>
             </div>
         </div>

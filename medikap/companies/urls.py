@@ -6,4 +6,6 @@ urlpatterns =[
     path('list', views.CompanyList.as_view(), name='list'),
     path('new', views.NewCompany.as_view(), name='new'),
     re_path(r'^detail/(?P<company_id>\d+)/$', views.DetailsCompany.as_view(), name='detail'),
+    #re_path(r'^detail/(?P<company_id>\d+)/upload', views.UploadFile.as_view(), name='upload'),
+    path('upload', views.UploadFile.as_view(), name='upload'),
 ]

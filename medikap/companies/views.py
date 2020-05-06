@@ -1,10 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect,HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
 from .models import Company, File
 from .forms import CompanyListForm, UploadFileForm, DetailForm
-from django.http import JsonResponse
 from clients.models import Client
+from django.core.files.storage import FileSystemStorage
 
 class CompanyList(generic.View):
     template_name = 'companies/company_list.html'
@@ -39,7 +39,7 @@ class DetailsCompany(generic.View):
 
     def get(self, request, company_id):
         employee_list = Client.objects.all().filter(pracodawca=company_id)
-        file_list = File.objects.all().filter(firma=company_id)
+        file_list = File.objects.all().filter(firma=company_id).order_by('-data_dodania')
         detailed_company = get_object_or_404(Company, id=company_id)
         form = self.form_class(instance=detailed_company)
 
@@ -54,8 +54,17 @@ class DetailsCompany(generic.View):
     def post(self, request, company_id):
         detailed_company = get_object_or_404(Company, id=company_id)
         form = self.form_class(request.POST, instance=detailed_company)
-        if form.is_valid():
+        if 'update-data' in request.POST and form.is_valid():
             form.save()
+            return redirect('companies:list')
+        if 'add-files' in request.POST:
+
+            uploaded_file = request.FILES['document']
+            file = File(firma=detailed_company, plik=uploaded_file)
+            file.save()
+            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
+        else:
+            #dodać komunikat o błędzie
             return redirect('companies:list')
 
 #
@@ -80,4 +89,14 @@ class DetailsCompany(generic.View):
 #
 #         return JsonResponse(data)
 
+class UploadFile(generic.View):
+    template_name = 'companies/file_new.html'
+    success_url = reverse_lazy("companies:list")
+    form = UploadFileForm
+
+    def get(self, request):
+        context = {
+            'form' : self.form,
+        }
+        return render(request, self.template_name, context)
 
