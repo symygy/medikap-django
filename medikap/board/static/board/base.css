@@ -13,6 +13,19 @@
     text-decoration: none;
 }
 
+.table-button{
+    border: none;
+    background: none;
+    text-decoration: none;
+    color: #bbb;
+}
+
+.table-button:hover{
+    border: none;
+    color: #2c3e50;
+    text-decoration: none;
+}
+
 /* Sidebar */
 #sidebar-wrapper{
     height: 95%;

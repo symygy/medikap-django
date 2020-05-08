@@ -4,31 +4,37 @@
 <legend class="col-12">Informacje o firmie</legend>
 <div class="container-fluid">
     <div class="row">
-        <div class="card col-4" >
-            <div class="card-body">
-                <h5 class="card-title">Aktualizowanie danych</h5>
-                <p class="card-text">
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {% include 'companies/company_base_form.html' %}
-                        <button type="submit" name="update-data" class="btn btn-info"><i class="far fa-edit"></i> Aktualizuj dane</button>
-                    </form>
-                </p>
-            </div>
-        </div>
-
-        <div class="card col-4" >
+        <div class="card col-xl-6 col-lg-12 col-md-12 mb-3" >
             <div class="card-body">
                 <h5 class="card-title">Pracownicy</h5>
                 <p class="card-text">
-                    {% for employee in employee_list %}
-                        <p>{{ employee.imie }} {{ employee.nazwisko }}</p>
-                    {% endfor%}
+                    <table class="table table-striped borderless text-center">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col"> imię i nazwisko </th>
+                                <th scope="col"> telefon </th>
+                                <th scope="col"> e-mail </th>
+                                <th scope="col"> ważność badania </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for employee in employee_list %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td><a href="{% url 'clients:update' employee.pk %}"> {{ employee.imie }} {{ employee.nazwisko }} </a></td>
+                                <td>{{ employee.numer_telefonu }}</td>
+                                <td>{{ employee.email }}</td>
+                                <td>{{ employee.data_waznosci_badania }}</td>
+                            </tr>
+                            {% endfor%}
+                        </tbody>
+                    </table>
                 </p>
             </div>
         </div>
 
-        <div class="card col-4" >
+        <div class="card col-xl-6 col-lg-12 col-md-12 mb-3" >
             <div class="card-body">
                 <h5 class="card-title">Dodane pliki</h5>
                 <p class="card-text">
@@ -39,27 +45,46 @@
                                     <th scope="col"></th>
                                     <th scope="col"> nazwa </th>
                                     <th scope="col"> data dodania </th>
+                                    <th scope="col"> akcja </th>
                                 </tr>
                             </thead>
-                                <tbody>
-                                {% for file in file_list %}
-                                    <tr>
-                                        <th scope="row">{{ forloop.counter }}</th>
-                                        <td><a href="{{ file.plik }}">{{ file }}</a></td>
-                                        <td>{{ file.data_dodania  }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
+                            <tbody>
+                            {% for file in file_list %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td><a href="{{ file.plik.url }}">{{ file }}</a></td>
+                                    <td>{{ file.data_dodania  }}</td>
+                                    <td>
+                                        <form method="post" action="{% url 'companies:delete_file' file.pk %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="table-button"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
                         </table>
                     </div>
-                </p>
-                <p>
+                <div>
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="file" name="document">
                         <button type="submit" name="add-files" class="btn btn-info"><i class="far fa-edit"></i> Dodaj pliki </button>
                     </form>
-                </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="card col" >
+            <div class="card-body">
+                <h5 class="card-title">Aktualizowanie danych</h5>
+                <p class="card-text">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'companies/company_base_form.html' %}
+                        <button type="submit" name="update-data" class="btn btn-info"><i class="far fa-edit"></i> Aktualizuj dane</button>
+                    </form>
             </div>
         </div>
     </div>

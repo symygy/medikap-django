@@ -34,11 +34,10 @@ class NewCompany(generic.CreateView):
 class DetailsCompany(generic.View):
     template_name = 'companies/company_detail.html'
     form_class = DetailForm
-    form_class2 = UploadFileForm
     success_url = reverse_lazy("companies:list")
 
     def get(self, request, company_id):
-        employee_list = Client.objects.all().filter(pracodawca=company_id)
+        employee_list = Client.objects.all().filter(pracodawca=company_id).order_by('data_waznosci_badania')
         file_list = File.objects.all().filter(firma=company_id).order_by('-data_dodania')
         detailed_company = get_object_or_404(Company, id=company_id)
         form = self.form_class(instance=detailed_company)
@@ -66,6 +65,12 @@ class DetailsCompany(generic.View):
         else:
             #dodać komunikat o błędzie
             return redirect('companies:list')
+
+def delete_file(request, pk):
+    if request.method == 'POST':
+        obj = File.objects.get(pk=pk)
+        obj.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 #
 # class UploadFile(generic.View):
