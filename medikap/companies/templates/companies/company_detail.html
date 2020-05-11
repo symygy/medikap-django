@@ -54,10 +54,18 @@
                     </div>
                 </p>
                 <p>
+                    {% include 'companies/progress_bar.html' %}
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <input type="file" name="document">
-                        <button type="submit" name="add-files" class="btn btn-info"><i class="far fa-edit"></i> Dodaj pliki </button>
+                        <input
+                                id="fileupload"
+                                type="file"
+                                name="document"
+                                multiple
+                                style="display: none;"
+                                data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+
+                        <button type="button" name="add-files" class="btn btn-info js-upload-photos"><i class="far fa-edit"></i> Dodaj pliki </button>
                     </form>
                 </p>
             </div>
