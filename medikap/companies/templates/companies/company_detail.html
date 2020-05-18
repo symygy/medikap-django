@@ -82,7 +82,7 @@
                 <p class="card-text">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        {% include 'companies/company_base_form.html' %}
+                        {% include 'companies/company_detail_form.html' %}
                         <button type="submit" name="update-data" class="btn btn-info"><i class="far fa-edit"></i> Aktualizuj dane</button>
                     </form>
             </div>

@@ -1,0 +1,78 @@
+{% extends 'board/base.html' %}
+{% block content %}
+<legend class="col-12">Podsumowanie</legend>
+<div class="container-fluid">
+    <div class="row">
+        <div class="card col-xl-4 col-lg-12 col-md-12" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Ostatnio dodani klienci</h5>
+                    <p class="card-text">
+                        <div class="table-responsive">
+                            <table class="table table-striped borderless text-center ">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">imie i nazwisko</th>
+                                        <th scope="col">email</th>
+                                        <th scope="col">telefon</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for client in last_clients %}
+                                        <tr>
+                                            <th scope="row">{{ forloop.counter }}</th>
+                                            <td>{{ client.imie }} {{ client.nazwisko }} </td>
+                                            <td>{{ client.email }} </td>
+                                            <td>{{ client.numer_telefonu }} </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </p>
+                <a href="{% url 'clients:list' %}" class="card-link">Zobacz więcej...</a>
+            </div>
+        </div>
+
+        <div class="card col-xl-4 col-lg-12 col-md-12" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Ostatnio dodane firmy</h5>
+                <p class="card-text">
+                        <div class="table-responsive">
+                            <table class="table table-striped borderless text-center ">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">nazwa</th>
+                                        <th scope="col">miasto</th>
+                                        <th scope="col">NIP</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for company in last_companies %}
+                                        <tr>
+                                            <th scope="row">{{ forloop.counter }}</th>
+                                            <td>{{ company.nazwa }}</td>
+                                            <td>{{ company.miasto }} </td>
+                                            <td>{{ company.nip }} </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </p>
+                <a href="#" class="card-link">Zobacz więcej...</a>
+            </div>
+        </div>
+
+        <div class="card col-xl-4 col-lg-12 col-md-12" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Badanie straci ważność w ciągu 30 dni</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="card-link">Zobacz więcej...</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
