@@ -1,0 +1,27 @@
+{% load crispy_forms_tags %}
+
+    <fieldset>
+        <div class="form-row">
+            <div class="col-lg-4">
+                {{ form.firma | as_crispy_field}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-2">
+                {{ form.forma_platnosci | as_crispy_field}}
+            </div>
+            <div class="col-lg-2">
+                {{ form.data_badania | as_crispy_field}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-4">
+                {{ form.rabat | as_crispy_field}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-4">
+                {{ form.usluga | as_crispy_field}}
+            </div>
+        </div>
+    </fieldset>

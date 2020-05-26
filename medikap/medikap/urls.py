@@ -27,6 +27,7 @@ urlpatterns = [
     path('clients/', include('clients.urls')),
     path('messages/', include('msg.urls')),
     path('companies/', include('companies.urls')),
+    path('invoices/', include('invoices.urls')),
 ]
 
 # Jeśli jesteśmy w trakcie tworzenia apki:

@@ -1,0 +1,24 @@
+{% extends 'board/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<legend class="col-12">Informacje o firmie</legend>
+<div class="container-fluid">
+    <div class="row">
+        <div class="card col-xl-6 col-lg-12 col-md-12 mb-3" >
+            <div class="card-body">
+                <h5 class="card-title">Podgląd faktury</h5>
+                <p class="card-text">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'invoices/invoice.html' %}
+                        <button type="submit" name="view-pdf" class="btn btn-info">Wyświetl jako PDF</button>
+                        <button type="submit" name="download-pdf" class="btn btn-info">Pobierz jako PDF</button>
+                        <a href="{% url 'invoices:delete' invoice.id %}" class="btn btn-secondary"><i class="far fa-trash-alt"></i> Usuń </a>
+                    </form>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

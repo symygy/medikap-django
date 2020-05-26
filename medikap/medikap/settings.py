@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'clients.apps.ClientsConfig',
     'msg.apps.MsgConfig',
     'companies.apps.CompaniesConfig',
+    'invoices.apps.InvoicesConfig',
 
 ]
 
@@ -136,6 +137,6 @@ MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = 'board:board'
+LOGIN_REDIRECT_URL = 'board:summary'
 
 LOGIN_URL = 'login'

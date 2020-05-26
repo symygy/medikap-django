@@ -1,0 +1,43 @@
+<html>
+    <head>
+        {% load static %}
+      <style>
+        body {
+          background-color: white;
+        }
+
+        .right{
+            text-align: right;
+            font-size: 10px;
+            float: right;
+        }
+        .left{
+            background-color: gray;
+            font-size: 10px;
+            text-align: left;
+            float: left;
+        }
+      </style>
+    </head>
+    <body>
+        <div>
+            <div>
+                <div class="left">
+                    <h4>test</h4>
+                    <img src="{% static 'board/logo.png'%}" alt="logo">
+                </div>
+                <div class="right">
+                    <p>Miejsce wystawienia: Zabno</p>
+                    <p>Data badania: {{ invoice.data_badania }}</p>
+                    <p>Data wystawienia: {{ invoice.data_wystawienia_faktury }}</p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div>
+                    <h2>{{ invoice.numer }}</h2>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

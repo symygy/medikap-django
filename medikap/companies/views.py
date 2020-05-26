@@ -57,7 +57,6 @@ class DetailsCompany(generic.View):
             form.save()
             return redirect('companies:list')
         if 'add-files' in request.POST:
-
             uploaded_file = request.FILES['document']
             file = File(firma=detailed_company, plik=uploaded_file)
             file.save()

@@ -12,7 +12,7 @@ class Company(models.Model):
     regon = models.CharField(verbose_name='REGON', max_length=50)
 
     def __str__(self):
-        return f'{self.nazwa} (NIP: {self.nip})'
+        return f'{self.nazwa} [NIP: {self.nip}]'
 
 class File(models.Model):
     firma = models.ForeignKey(Company, on_delete=models.CASCADE)
