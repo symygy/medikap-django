@@ -4,20 +4,8 @@ from django.urls import reverse_lazy
 from .models import Invoice
 from .forms import InvoiceListForm, NewInvoiceForm
 import datetime
-from io import BytesIO
 from django.http import HttpResponse
-from django.template.loader import get_template
-from xhtml2pdf import pisa
-
-
-def render_to_pdf(template_src, context_dict={}):
-	template = get_template(template_src)
-	html = template.render(context_dict)
-	result = BytesIO()
-	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
-	if not pdf.err:
-		return HttpResponse(result.getvalue(), content_type='application/pdf')
-	return None
+from medikap.utils import render_to_pdf, link_callback
 
 class InvoiceList(generic.View):
 	template_name = 'invoices/invoice_list.html'
@@ -42,14 +30,19 @@ class NewInvoice(generic.CreateView):
 		year = self.now.strftime("%Y")
 		month = self.now.strftime("%m")
 		last_invoice = Invoice.objects.all().last()
-		last_invoice_number = last_invoice.numer.split("/")
-		if last_invoice_number[1] == month or last_invoice_number[2] == year :
-			invoice_number = int(last_invoice_number[0]) + 1
+		print('--------------------------------------------------')
+		print(last_invoice)
+		if last_invoice is not None:
+			last_invoice_number = last_invoice.numer.split("/")
+			if last_invoice_number[1] == month or last_invoice_number[2] == year :
+				invoice_number = int(last_invoice_number[0]) + 1
+			else:
+				invoice_number = 1
 		else:
 			invoice_number = 1
-			
+
 		new_invoice_number = str(invoice_number) + '/' + str(month) + '/' + str(year)
-		
+
 		return new_invoice_number
 	
 	def form_valid(self, form):

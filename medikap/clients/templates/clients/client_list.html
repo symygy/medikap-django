@@ -24,7 +24,11 @@
                     <td>{{ client.data_badania }}</td>
                     <td>{{ client.data_waznosci_badania }}</td>
                     <td>{{ client.get_podstawa_prawna_display }}</td>
-                    <td>{{ client.pracodawca }}</td>
+                    {% if client.pracodawca == None %}
+                        <td>brak</td>
+                    {% else %}
+                        <td>{{ client.pracodawca }}</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>

@@ -1,41 +1,48 @@
 <html>
     <head>
         {% load static %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="UTF-8">
       <style>
+        @font-face {
+            font-family: Roboto;
+            src: url('{% static 'fonts/Roboto-Bold.ttf' %}');
+            font-weight: bold;
+        }
+
         body {
           background-color: white;
+          font-family: "Roboto", sans-serif;
         }
 
         .right{
-            text-align: right;
             font-size: 10px;
-            float: right;
+            text-align: right;
+
         }
         .left{
-            background-color: gray;
-            font-size: 10px;
             text-align: left;
-            float: left;
         }
+
+        .top {
+            }
       </style>
     </head>
     <body>
         <div>
-            <div>
+            <div class="top">
                 <div class="left">
-                    <h4>test</h4>
-                    <img src="{% static 'board/logo.png'%}" alt="logo">
+                    <img src="{% static 'invoices/logo.png' %}" alt="logo" width="150" height="112">
                 </div>
                 <div class="right">
-                    <p>Miejsce wystawienia: Zabno</p>
+                    <p>Miejsce wystawienia: Żabno</p>
                     <p>Data badania: {{ invoice.data_badania }}</p>
                     <p>Data wystawienia: {{ invoice.data_wystawienia_faktury }}</p>
                 </div>
-
             </div>
-            <div class="row">
+            <div >
                 <div>
-                    <h2>{{ invoice.numer }}</h2>
+                    <h2>Faktura nr: {{ invoice.numer }}</h2>
                 </div>
             </div>
         </div>

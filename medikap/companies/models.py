@@ -1,4 +1,6 @@
 from django.db import models
+import os
+from django.dispatch import receiver
 
 def get_upload_folder_name(instance, filename):
     return f'company_files/nip_{instance.firma.nip}/{filename}'
@@ -22,3 +24,10 @@ class File(models.Model):
 
     def __str__(self):
         return str(self.plik.name.split('/')[2])
+
+@receiver(models.signals.post_delete, sender=File)
+def auto_delete_from_server(sender, instance, **kwargs):
+    # Usuwa plik z servera w momencie kiedy zostanie on usunięty z bazy danych
+    if instance.plik:
+        if os.path.isfile(instance.plik.path):
+            os.remove(instance.plik.path)

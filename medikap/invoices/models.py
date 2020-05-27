@@ -21,7 +21,7 @@ class Invoice(models.Model):
 	data_badania = models.DateField()
 	data_wystawienia_faktury = models.DateTimeField()
 	usluga = models.ManyToManyField(Service, verbose_name='usługi')
-	rabat = models.IntegerField(verbose_name='rabat [%]', blank=True)
+	rabat = models.IntegerField(verbose_name='rabat [%]', blank=True, null=True)
 
 	def __str__(self):
 		return self.numer
