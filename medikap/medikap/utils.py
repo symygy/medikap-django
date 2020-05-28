@@ -25,11 +25,12 @@ def link_callback(uri, rel):
     mUrl = settings.MEDIA_URL       # Typically /static/media/
     mRoot = settings.MEDIA_ROOT     # Typically /home/userX/project_static/media/
 
+
     # convert URIs to absolute system paths
-    if uri.startswith(mUrl):
-        path = os.path.join(mRoot, uri.replace(mUrl, ""))
-    elif uri.startswith(sUrl):
+    if uri.startswith(sUrl):
         path = os.path.join(sRoot, uri.replace(sUrl, ""))
+    elif uri.startswith(mUrl):
+        path = os.path.join(mRoot, uri.replace(mUrl, ""))
     else:
         return uri  # handle absolute uri (ie: http://some.tld/foo.png)
 

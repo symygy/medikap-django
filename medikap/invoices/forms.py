@@ -24,3 +24,11 @@ class NewInvoiceForm(forms.ModelForm):
 			'usluga' : forms.CheckboxSelectMultiple,
 			'data_badania' : DateInput(),
 		}
+
+class DetailInvoiceForm(forms.ModelForm):
+	class Meta:
+		model = Invoice
+		fields = '__all__'
+		widgets = {
+			'usluga': forms.CheckboxSelectMultiple,
+		}

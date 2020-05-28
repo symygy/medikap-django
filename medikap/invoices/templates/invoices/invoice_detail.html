@@ -18,6 +18,19 @@
                 </p>
             </div>
         </div>
+
+        <div class="card col-xl-6 col-lg-12 col-md-12 mb-3" >
+            <div class="card-body">
+                <h5 class="card-title">Aktualizowanie danych</h5>
+                <p class="card-text">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'invoices/invoice_detail_form.html' %}
+                        <button type="submit" name="update-data" class="btn btn-info"><i class="far fa-edit"></i> Aktualizuj dane</button>
+                    </form>
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 

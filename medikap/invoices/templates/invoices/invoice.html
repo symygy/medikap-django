@@ -6,9 +6,54 @@
       <style>
         @font-face {
             font-family: Roboto;
+            src: url('{% static 'fonts/Roboto-Regular.ttf' %}');
+        }
+
+        @font-face {
+            font-family: Roboto-bold;
             src: url('{% static 'fonts/Roboto-Bold.ttf' %}');
             font-weight: bold;
         }
+
+        @page {
+            size: a4 portrait;
+            @frame header_frame {           /* Static Frame */
+                -pdf-frame-content: frame_header_left;
+                left: 50pt; width: 245pt; top: 30pt; height: 150pt;
+            }
+            @frame header_frame {           /* Static Frame */
+                -pdf-frame-content: frame_header_right;
+                left: 300pt; width: 245pt; top: 50pt; height: 150pt;
+            }
+
+            @frame content_frame {          /* Content Frame */
+                -pdf-frame-content: frame_invoice_number;
+                left: 50pt; width: 512pt; top: 170pt; height: 30pt;
+            }
+
+            @frame col1 {
+                -pdf-frame-content: frame_col1;
+                left: 50pt; width: 245pt; top: 220pt; height: 130pt;
+            }
+
+            @frame col2 {
+                -pdf-frame-content: frame_col2;
+                left: 300pt; width: 245pt; top: 220pt; height: 130pt;
+            }
+
+            @frame content_frame {
+                -pdf-frame-content: frame_services;
+                left: 50pt; width: 512pt; top: 380pt; height: 110pt;
+                -pdf-frame-border: 1;
+            }
+
+            @frame footer_frame {           /* Another static Frame */
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+
+            }
+    }
+
 
         body {
           background-color: white;
@@ -24,27 +69,73 @@
             text-align: left;
         }
 
-        .top {
-            }
+        .invoice-number {
+            font-size: 18px;
+            font-family: "Roboto-bold", sans-serif;
+        }
+        .col-titles {
+            font-size: 16px;
+            text-decoration: underline;
+
+            font-family: "Roboto-bold", sans-serif;
+         }
+
+         p{
+            font-size: 10px;
+            line-height: 0;
+         }
+
       </style>
     </head>
     <body>
         <div>
-            <div class="top">
-                <div class="left">
+            <div>
+                <div id="frame_header_left" class="left">
                     <img src="{% static 'invoices/logo.png' %}" alt="logo" width="150" height="112">
                 </div>
-                <div class="right">
+                <div id="frame_header_right" class="right">
                     <p>Miejsce wystawienia: Żabno</p>
                     <p>Data badania: {{ invoice.data_badania }}</p>
                     <p>Data wystawienia: {{ invoice.data_wystawienia_faktury }}</p>
                 </div>
             </div>
-            <div >
-                <div>
+            <div id="frame_invoice_number">
+                <div class="invoice-number">
                     <h2>Faktura nr: {{ invoice.numer }}</h2>
                 </div>
             </div>
+            <div id="frame_col1">
+                <p class="col-titles">Sprzedawca</p>
+                <div>
+                    <p>MEDIKAP</p>
+                    <p>ul. Plac Grunwaldzki 15B, 33-240 Żabno</p>
+                    <p>NIP: 999999999</p>
+                    <p>REGON: 9999999</p>
+                    <p>Bank: ING Bank Śląski</p>
+                    <p>Nr konta: 12 1234 1234 1243 1243 214 1244</p>
+                </div>
+            </div>
+
+            <div id="frame_col2">
+                <p class="col-titles">Nabywca</p>
+                <div>
+                    <p> {{ invoice.firma}} </p>
+                    <p> ul. {{ invoice.firma.ulica }} </p>
+                    <p> {{ invoice.firma.kod_pocztowy }} {{ invoice.firma.miasto}}</p>
+                    <p> NIP: {{ invoice.firma.nip }}</p>
+                    <p> REGON: {{ invoice.firma.regon }}</p>
+                    <p> forma płatności: {{ invoice.get_forma_platnosci_display}}</p>
+                </div>
+            </div>
+
+            <div id="frame_services">
+                {% for service in invoice.usluga.all %}
+                    <p> {{ service.nazwa }} {{ service.cena }}</p>
+                {% endfor %}
+                    <p> Suma: {{ total_invoice_value.total }} </p>
+                    <p> Po rabacie: {{ discounted_value }} </p>
+            </div>
+
         </div>
     </body>
 </html>
