@@ -43,14 +43,14 @@
 
             @frame content_frame {
                 -pdf-frame-content: frame_services;
-                left: 50pt; width: 512pt; top: 380pt; height: 110pt;
-                -pdf-frame-border: 1;
+                left: 50pt; width: 512pt; top: 380pt; height: 150pt;
+
             }
 
             @frame footer_frame {           /* Another static Frame */
                 -pdf-frame-content: footer_content;
                 left: 50pt; width: 512pt; top: 772pt; height: 20pt;
-
+                -pdf-frame-border: 1;
             }
     }
 
@@ -83,6 +83,24 @@
          p{
             font-size: 10px;
             line-height: 0;
+         }
+
+         table {
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        td, td {
+            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+         th {
+            height: 36px;
+
+         }
+         td {
+            height: 25px;
          }
 
       </style>
@@ -129,11 +147,26 @@
             </div>
 
             <div id="frame_services">
-                {% for service in invoice.usluga.all %}
-                    <p> {{ service.nazwa }} {{ service.cena }}</p>
-                {% endfor %}
-                    <p> Suma: {{ total_invoice_value.total }} </p>
-                    <p> Po rabacie: {{ discounted_value }} </p>
+                <table>
+                    <tr>
+                        <th style="width: 30px;"> # </th>
+                        <th style="width: 600px;"> Nazwa usługi</th>
+                        <th style="width: 100px;"> Cena usługi</th>
+
+                    </tr>
+
+                    {% for service in invoice.usluga.all %}
+                        <tr>
+                            <td> {{ forloop.counter }} </td>
+                            <td> {{ service.nazwa }} </td>
+                            <td> {{ service.cena|floatformat:"-2" }} PLN </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <br>
+                <p>Wartość: {{ total_invoice_value.total|floatformat:"-2" }} PLN</p>
+                <p>Wartość z uwzględnieniem {{ invoice.rabat}}% rabatu: {{ discounted_value|floatformat:"-2" }} PLN</p>
+
             </div>
 
         </div>

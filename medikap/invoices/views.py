@@ -62,6 +62,7 @@ class DetailsInvoice(generic.View):
 	def calculate_discouted_value(self, obj):
 		total_value = self.calculate_total_value(obj)
 		discounted_value = total_value['total'] - (total_value['total']*(obj.rabat/100))
+		#service_value = obj.usluga.cena - (obj.usluga.cena*(obj.rabat/100))
 		return discounted_value
 
 	def get(self, request, invoice_id):

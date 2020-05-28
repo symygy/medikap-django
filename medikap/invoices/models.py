@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class Service(models.Model):
 	nazwa = models.CharField(max_length=100)
-	cena = models.IntegerField()
+	cena = models.FloatField()
 
 	def __str__(self):
 		return f'{self.nazwa} - cena: {self.cena}zł'
@@ -22,11 +22,7 @@ class Invoice(models.Model):
 	data_wystawienia_faktury = models.DateTimeField()
 	usluga = models.ManyToManyField(Service, verbose_name='usługi')
 	rabat = models.IntegerField(verbose_name='rabat [%]', blank=True, null=True)
-	wartosc = models.FloatField(null=True, blank=True)
 
 	def __str__(self):
 		return self.numer
 
-	def calculate_total_value(self):
-		if self.rabat != 0:
-			self.wartosc = 0
