@@ -84,3 +84,18 @@
     position: absolute;
     bottom: 0;
 }
+
+.cart-row{
+	display: flex;
+    align-items: flex-stretch;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+
+.quantity{
+	display: inline-block;
+	font-weight: 700;
+	padding-right:10px;
+	font-size: 10px;
+}
+

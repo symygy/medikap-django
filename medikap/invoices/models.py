@@ -20,9 +20,22 @@ class Invoice(models.Model):
 	forma_platnosci = models.CharField(verbose_name='forma płatności', max_length=75, choices=forma_platnosci_wybor)
 	data_badania = models.DateField()
 	data_wystawienia_faktury = models.DateTimeField()
-	usluga = models.ManyToManyField(Service, verbose_name='usługi')
 	rabat = models.IntegerField(verbose_name='rabat [%]', blank=True, null=True)
+	uslugi = models.ManyToManyField(Service, verbose_name='usługi')
+	#uslugi = models.ManyToManyField('ServiceItem', blank=True, null=True)
 
 	def __str__(self):
 		return self.numer
 
+class ServiceItem(models.Model):
+	usluga = models.ForeignKey(Service, on_delete=models.CASCADE)
+	faktura = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+	ilosc = models.PositiveIntegerField(default=1)
+
+	def __str__(self):
+		return f'{self.usluga.nazwa} - cena: {self.usluga.cena}zł'
+
+	@property
+	def get_total_value(self):
+		total_value = self.usluga.cena * self.ilosc
+		return total_value

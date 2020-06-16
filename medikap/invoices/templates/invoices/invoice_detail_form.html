@@ -12,22 +12,41 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 {{ form.forma_platnosci | as_crispy_field}}
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 {{ form.data_badania | as_crispy_field}}
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 {{ form.data_wystawienia_faktury | as_crispy_field}}
             </div>
-        </div>
-        <div class="form-row">
             <div class="col-lg-3">
                 {{ form.rabat | as_crispy_field}}
             </div>
-            <div class="col-lg-9">
-                {{ form.usluga | as_crispy_field}}
+        </div>
+        <div class="form-row">
+            <div class="col-lg-6">
+                {{ form.uslugi | as_crispy_field}}
             </div>
         </div>
+
+        <div class="form-row">
+            <div class="col-lg-12">
+                <p>Zmień ilości</p>
+                {% for service in services %}
+                    <div class="cart-row">
+                        <div><p>{{ service.nazwa }}</p></div>
+                        <div><p>{{ service.cena|floatformat:2 }} PLN</p></div>
+                        <div>
+                            <input class="quantity" type="text" id={{service.id}} value='0'>
+                            <div class="quantity">
+                                <button data-service={{service.id}} data-action="add" class="btn btn-outline-secondary update-invoice">dodaj</button>
+                            </div>
+                        </div>
+                {% endfor %}
+                    </div>
+            </div>
+        </div>
+
     </fieldset>

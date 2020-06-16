@@ -1,4 +1,5 @@
 {% load crispy_forms_tags %}
+{% load static %}
 
     <fieldset>
         <div class="form-row">
@@ -16,12 +17,31 @@
         </div>
         <div class="form-row">
             <div class="col-lg-4">
-                {{ form.rabat | as_crispy_field}}
+                {{ form.rabat | as_crispy_field }}
             </div>
         </div>
         <div class="form-row">
             <div class="col-lg-4">
-                {{ form.usluga | as_crispy_field}}
+                {{ form.uslugi | as_crispy_field }}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-lg-4">
+                <p>Usługi: </p>
+                {% for service in services %}
+                    <div class="cart-row">
+                        <div><p>{{ service.nazwa }}</p></div>
+                        <div><p>{{ service.cena|floatformat:2 }} PLN</p></div>
+                        <div>
+                            <input class="quantity" type="text" id={{service.id}}>
+                            <div class="quantity">
+                                <button data-service={{service.id}} data-action="add" class="btn btn-outline-secondary update-invoice">dodaj</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </fieldset>
+
