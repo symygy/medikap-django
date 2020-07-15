@@ -10,18 +10,16 @@ class InvoiceListForm(forms.ModelForm):
 	class Meta:
 		model = Invoice
 		fields = '__all__'
-		# exclude = ['uslugi', 'data_badania', 'rabat']
-		exclude = ['data_badania', 'rabat']
+		exclude = ['data_badania', 'rabat', 'uslugi']
 
 class NewInvoiceForm(forms.ModelForm):
-	#quantity = forms.IntegerField()
 
 	class Meta:
 		model = Invoice
 		fields = '__all__'
 		exclude = ['numer', 'data_wystawienia_faktury']
 		widgets = {
-			#'uslugi' : forms.CheckboxSelectMultiple,
+			'uslugi' : forms.CheckboxSelectMultiple,
 			'data_badania' : DateInput(),
 		}
 

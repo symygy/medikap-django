@@ -26,6 +26,7 @@
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% include 'invoices/invoice_detail_form.html' %}
+                        <br>
                         <button type="submit" name="update-data" class="btn btn-info"><i class="far fa-edit"></i> Aktualizuj dane</button>
                     </form>
                 </p>

@@ -1,4 +1,5 @@
 {% load crispy_forms_tags %}
+{% load invoices.serviceItemTag %}
 
     <fieldset>
         <div class="form-row">
@@ -26,26 +27,16 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-lg-6">
-                {{ form.uslugi | as_crispy_field}}
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="col-lg-12">
-                <p>Zmień ilości</p>
-                {% for service in services %}
-                    <div class="cart-row">
-                        <div><p>{{ service.nazwa }}</p></div>
-                        <div><p>{{ service.cena|floatformat:2 }} PLN</p></div>
-                        <div>
-                            <input class="quantity" type="text" id={{service.id}} value='0'>
-                            <div class="quantity">
-                                <button data-service={{service.id}} data-action="add" class="btn btn-outline-secondary update-invoice">dodaj</button>
-                            </div>
-                        </div>
+            <div class="col-lg-6 ">
+                {% for field in form.uslugi %}
+                    <div>{{ field }}</div>
                 {% endfor %}
+                {% for service in services_items %}
+                    <div>
+                        <label>{{ service.usluga.nazwa }}</label>
+                        <input class="form-control" data-toggle="tooltip" title="wprowadź ilość" type="text" name='quantity-{{ service.id }}' value="{{ service.ilosc }}" >
                     </div>
+                {% endfor %}
             </div>
         </div>
 

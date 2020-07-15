@@ -20,28 +20,17 @@
                 {{ form.rabat | as_crispy_field }}
             </div>
         </div>
-        <div class="form-row">
-            <div class="col-lg-4">
-                {{ form.uslugi | as_crispy_field }}
-            </div>
-        </div>
 
         <div class="form-row">
-            <div class="col-lg-4">
-                <p>Usługi: </p>
-                {% for service in services %}
-                    <div class="cart-row">
-                        <div><p>{{ service.nazwa }}</p></div>
-                        <div><p>{{ service.cena|floatformat:2 }} PLN</p></div>
-                        <div>
-                            <input class="quantity" type="text" id={{service.id}}>
-                            <div class="quantity">
-                                <button data-service={{service.id}} data-action="add" class="btn btn-outline-secondary update-invoice">dodaj</button>
-                            </div>
-                        </div>
+            <div class="col-lg-4 ">
+                {% for field in form.uslugi %}
+                    <div>{{ field }}</div>
+                    <div>
+                        <input class="form-control" data-toggle="tooltip" title="wprowadź ilość" type="text" name='quantity-{{forloop.counter}}' id='quantity-{{forloop.counter}}' value="0" style="display: none;">
                     </div>
                 {% endfor %}
             </div>
         </div>
     </fieldset>
+
 

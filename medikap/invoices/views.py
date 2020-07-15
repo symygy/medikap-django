@@ -6,7 +6,7 @@ from .forms import InvoiceListForm, NewInvoiceForm, DetailInvoiceForm
 import datetime
 from django.http import HttpResponse, JsonResponse
 from medikap.utils import render_to_pdf
-from django.db.models import Sum
+from django.contrib import messages
 import json
 from django.forms import inlineformset_factory
 
@@ -16,16 +16,50 @@ class InvoiceList(generic.View):
 	form = InvoiceListForm
 
 	def get(self, request):
-		all_invoices = Invoice.objects.all().order_by('-numer')
+		all_invoices = Invoice.objects.all().order_by('-id')
 		context = {
 			'form': self.form,
 			'all_invoices': all_invoices,
 		}
 		return render(request, self.template_name, context)
 
-class NewInvoice(generic.CreateView):
+# class NewInvoice(generic.CreateView):
+# 	model = Invoice
+# 	template_name_suffix = "_new"
+# 	form_class = NewInvoiceForm
+# 	success_url = reverse_lazy('invoices:list')
+# 	#success_url = reverse_lazy('invoices:test')
+# 	now = datetime.datetime.now()
+#
+# 	def next_invoice_number(self):
+# 		year = self.now.strftime("%Y")
+# 		month = self.now.strftime("%m")
+# 		last_invoice = Invoice.objects.all().last()
+# 		if last_invoice is not None:
+# 			last_invoice_number = last_invoice.numer.split("/")
+# 			if last_invoice_number[1] == month or last_invoice_number[2] == year :
+# 				invoice_number = int(last_invoice_number[0]) + 1
+# 			else:
+# 				invoice_number = 1
+# 		else:
+# 			invoice_number = 1
+#
+# 		new_invoice_number = str(invoice_number) + '/' + str(month) + '/' + str(year)
+#
+# 		return new_invoice_number
+#
+# 	def form_valid(self, form, request):
+# 		obj = form.save(commit=False)
+# 		obj.numer = self.next_invoice_number()
+# 		obj.data_wystawienia_faktury = self.now
+# 		obj.save()
+#
+# 		return super(NewInvoice, self).form_valid(form)
+
+
+class NewInvoice(generic.View):
 	model = Invoice
-	template_name_suffix = "_new"
+	template_name = 'invoices/invoice_new.html'
 	form_class = NewInvoiceForm
 	success_url = reverse_lazy('invoices:list')
 	now = datetime.datetime.now()
@@ -47,66 +81,45 @@ class NewInvoice(generic.CreateView):
 
 		return new_invoice_number
 
-	def form_valid(self, form):
-		obj = form.save(commit=False)
-		obj.numer = self.next_offer_number()
-		obj.data_wystawienia_faktury = self.now
-		obj.save()
-		return super(NewInvoice, self).form_valid(form)
+	def get(self, request):
+		invoice = Invoice()
+		form = self.form_class(instance=invoice)
+		services = Service.objects.all()
+		#services = ServiceItem.objects.all()
 
-# class NewInvoice2(generic.View):
-# 	model = Invoice
-# 	template_name = 'invoices/invoice_new.html'
-# 	form_class = NewInvoiceForm
-# 	success_url = reverse_lazy('invoices:list')
-# 	now = datetime.datetime.now()
-#
-# 	def next_offer_number(self):
-# 		year = self.now.strftime("%Y")
-# 		month = self.now.strftime("%m")
-# 		last_invoice = Invoice.objects.all().last()
-# 		if last_invoice is not None:
-# 			last_invoice_number = last_invoice.numer.split("/")
-# 			if last_invoice_number[1] == month or last_invoice_number[2] == year :
-# 				invoice_number = int(last_invoice_number[0]) + 1
-# 			else:
-# 				invoice_number = 1
-# 		else:
-# 			invoice_number = 1
-#
-# 		new_invoice_number = str(invoice_number) + '/' + str(month) + '/' + str(year)
-#
-# 		return new_invoice_number
-#
-# 	def get(self, request):
-# 		invoice = Invoice()
-# 		form = self.form_class(instance=invoice)
-# 		services = Service.objects.all()
-#
-# 		context = {
-# 			'invoice': invoice,
-# 			'form': form,
-# 			'services' : services
-# 		}
-#
-# 		return render(request, self.template_name, context)
-#
-# 	def post(self, request):
-# 		form = self.form_class(request.POST)
-# 		if form.is_valid():
-# 			obj = form.save(commit=False)
-# 			obj.usluga.ilosc = request.FILES['quantity']
-# 			obj.numer = self.next_offer_number()
-# 			obj.data_wystawienia_faktury = self.now
-# 			obj.save()
-# 			return super(NewInvoice, self).form_valid(form)
-#
-# 	# def form_valid(self, form):
-# 	# 	obj = form.save(commit=False)
-# 	# 	obj.numer = self.next_offer_number()
-# 	# 	obj.data_wystawienia_faktury = self.now
-# 	# 	obj.save()
-# 	# 	return super(NewInvoice, self).form_valid(form)
+		context = {
+			'invoice': invoice,
+			'form': form,
+			'services' : services,
+		}
+
+		return render(request, self.template_name, context)
+
+	def post(self, request):
+		form = self.form_class(request.POST)
+		all_services = Service.objects.all()
+
+
+		if form.is_valid():
+			obj = form.save(commit=False)
+			obj.numer = self.next_offer_number()
+			obj.data_wystawienia_faktury = self.now
+			obj.save()
+
+			for service in all_services:
+				quantity_input = request.POST.get('quantity-'+str(service.id))
+				if int(quantity_input) > 0:
+					newServiceItem = ServiceItem(usluga=service, faktura=obj, ilosc=quantity_input)
+					newServiceItem.save()
+					obj.uslugi.add(service)
+					obj.save()
+			messages.success(request, 'Pomyślnie utworzono nową fakturę o numerze: '+ obj.numer)
+
+			return redirect('invoices:list')
+
+		else:
+			messages.error(request, 'Coś poszło nie tak. Twoje ostatnie działanie mogło nie zostać przetworzone poprawnie.')
+			return redirect('board:summary')
 
 class DetailsInvoice(generic.View):
 	template_name = 'invoices/invoice_detail.html'
@@ -114,7 +127,7 @@ class DetailsInvoice(generic.View):
 	success_url = reverse_lazy("invoices:list")
 
 	def calculate_total_value(self, obj):
-		return obj.uslugi.all().aggregate(total=Sum('cena'))
+		return 999
 
 
 	def calculate_discouted_value(self, obj):
@@ -131,8 +144,8 @@ class DetailsInvoice(generic.View):
 		form = self.form_class(instance=invoice)
 		request.session['invoice_id'] = invoice.id
 
-		services = Service.objects.all().filter(invoice = invoice)
-		services_items = ServiceItem.objects.all().filter(faktura = invoice)
+		services = Service.objects.all()
+		all_service_items = ServiceItem.objects.all().filter(faktura = invoice)
 
 		context = {
 			'invoice': invoice,
@@ -141,14 +154,17 @@ class DetailsInvoice(generic.View):
 			'discounted_value': self.calculate_discouted_value(invoice),
 
 			'services' : services,
-			'services_items' : services_items,
+			'services_items' : all_service_items,
 		}
 
 		return render(request, self.template_name, context)
 
 	def post(self, request, invoice_id):
+
 		invoice = get_object_or_404(Invoice, id=invoice_id)
 		form = self.form_class(request.POST, instance=invoice)
+
+		all_service_items = ServiceItem.objects.all().filter(faktura=invoice)
 
 		context = {
 			'invoice' : invoice,
@@ -159,6 +175,16 @@ class DetailsInvoice(generic.View):
 		pdf = render_to_pdf('invoices/invoice.html', context)
 
 		if 'update-data' in request.POST and form.is_valid():
+			for service in all_service_items:
+				service_item = get_object_or_404(ServiceItem, id=service.id)
+				quantity_input = request.POST.get('quantity-' + str(service.id))
+
+				# newServiceItem = ServiceItem(usluga=service, faktura=invoice, ilosc='1')
+				# newServiceItem.save()
+
+				service_item.ilosc = int(quantity_input)
+				service_item.save()
+
 			form.save()
 			return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
 
@@ -194,8 +220,9 @@ def updateInvoice(request):
 
 	service_item = get_object_or_404(ServiceItem, usluga=service, faktura=invoice, ilosc=quantity)
 	print('************************************************')
-	print(service_item
-		  # zriobic sprawdzanie czy obiekt istnieje. jesli nie to utworzyc jesli tak to edytowac)
+	print(service_item)
+  # zriobic sprawdzanie czy obiekt istnieje. jesli nie to utworzyc jesli tak to edytowac)
+
 
 
 

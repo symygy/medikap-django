@@ -1,12 +1,18 @@
 {% extends 'board/base.html' %}
 
 {% block content %}
+{% for message in messages %}
+        <div class="alert alert-success">
+            <a class="close" href="#" data-dismiss="alert">×</a>
+            {{ message }}
+        </div>
+{% endfor %}
 <h2>Spis faktur</h2>
 <div class="table-responsive">
     <table class="table table-striped borderless text-center">
         <thead class="thead-dark">
             <tr>
-                <th scope="col"></th>
+                <th scope="col">#</th>
                 {% for field in form %}
                 <th scope="col">{{ field.label_tag }} </th>
                 {% endfor %}

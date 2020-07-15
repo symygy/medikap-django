@@ -92,10 +92,8 @@
     margin-bottom: 2px;
 }
 
-.quantity{
-	display: inline-block;
-	font-weight: 700;
-	padding-right:10px;
-	font-size: 10px;
+.form-control-hide{
+    display: none;
 }
+
 

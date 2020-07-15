@@ -22,7 +22,6 @@ class Invoice(models.Model):
 	data_wystawienia_faktury = models.DateTimeField()
 	rabat = models.IntegerField(verbose_name='rabat [%]', blank=True, null=True)
 	uslugi = models.ManyToManyField(Service, verbose_name='usługi')
-	#uslugi = models.ManyToManyField('ServiceItem', blank=True, null=True)
 
 	def __str__(self):
 		return self.numer
@@ -33,7 +32,7 @@ class ServiceItem(models.Model):
 	ilosc = models.PositiveIntegerField(default=1)
 
 	def __str__(self):
-		return f'{self.usluga.nazwa} - cena: {self.usluga.cena}zł'
+		return f'{self.usluga.nazwa} [faktura: {self.faktura}]'
 
 	@property
 	def get_total_value(self):
