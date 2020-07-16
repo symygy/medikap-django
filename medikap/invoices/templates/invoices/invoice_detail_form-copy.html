@@ -36,7 +36,7 @@
                 <h5 class="font-weight-bold">Zmień ilości:</h5>
                 {% for service in services_items %}
                     <div>
-                        <p>{{ service.id }}</p>
+                        <p>{{ forloop.counter }}</p>
                         <label class="show-me" id='label-{{ forloop.counter }}'>{{ service.usluga.nazwa }}</label>
                         <input class="form-control show-me" data-toggle="tooltip" title="wprowadź ilość" type="text" name='quantity-{{ service.id }}' id='quantity-{{ forloop.counter }}' value="{{ service.ilosc }}">
                     </div>

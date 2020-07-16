@@ -1,6 +1,12 @@
 {% extends 'board/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
+{% for message in messages %}
+        <div class="alert alert-success">
+            <a class="close" href="#" data-dismiss="alert">×</a>
+            {{ message }}
+        </div>
+{% endfor %}
 <legend class="col-12">Informacje o firmie</legend>
 <div class="container-fluid">
     <div class="row">
