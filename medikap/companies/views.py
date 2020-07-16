@@ -11,7 +11,7 @@ class CompanyList(generic.View):
     form = CompanyListForm
 
     def get(self, request):
-        all_companies = Company.objects.all()
+        all_companies = Company.objects.all().order_by('nazwa')
         context = {
             'form' : self.form,
             'all_companies' : all_companies,

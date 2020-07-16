@@ -11,7 +11,7 @@ class ClientList(generic.View):
 
 	def get(self, request):
 		# wazne by ponizsze query bylo wewnatrz metody get bo inaczej widok listy nie bedzie sie aktualizował po reverse_lazy
-		all_clients = Client.objects.all()
+		all_clients = Client.objects.all().order_by('nazwisko')
 		context = {
 			'form' : self.form,
 			'all_clients' : all_clients,

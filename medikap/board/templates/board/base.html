@@ -120,19 +120,24 @@ function validateForm() {
 
 
 <script>
-        var elements = document.querySelectorAll("[name^=uslugi]")
-        var checkboxes = document.querySelectorAll('input[name="uslugi"]:checked');
+$('input[type="checkbox"]').click(function(){
+            var value = this.value;
+            var element = document.getElementById('quantity-'+value);
+            var label = document.getElementById('label-'+value);
 
-        for (var i=0; i < checkboxes.length; i++) {
-        var value = checkboxes[i].value;
-        var element = document.getElementById('quantity-'+value);
-        console.log(value)
-        console.log(element)
-
-        }
-
-
-
+            if($(this).is(":checked")){
+                $(element).addClass("show-me");
+                $(element).removeClass("hide-me");
+                $(label).addClass("show-me");
+                $(label).removeClass("hide-me");
+            }
+            else if($(this).is(":not(:checked)")){
+                $(element).addClass("hide-me");
+                $(element).removeClass("show-me");
+                $(label).addClass("hide-me");
+                $(label).removeClass("show-me");
+            }
+        });
 </script>
 
 

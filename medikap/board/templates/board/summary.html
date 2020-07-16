@@ -61,15 +61,38 @@
                             </table>
                         </div>
                     </p>
-                <a href="#" class="card-link">Zobacz więcej...</a>
+                <a href="{% url 'companies:list' %}" class="card-link">Zobacz więcej...</a>
             </div>
         </div>
 
         <div class="card col-xl-4 col-lg-12 col-md-12" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Ostatnio utworzone faktury</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="card-link">Zobacz więcej...</a>
+                <p class="card-text">
+                        <div class="table-responsive">
+                            <table class="table table-striped borderless text-center ">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">numer</th>
+                                        <th scope="col">firma</th>
+                                        <th scope="col">data wystawienia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for invoice in last_invoices %}
+                                        <tr>
+                                            <th scope="row">{{ forloop.counter }}</th>
+                                            <td>{{ invoice.numer }}</td>
+                                            <td>{{ invoice.firma }} </td>
+                                            <td>{{ invoice.data_wystawienia_faktury }} </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </p>
+                <a href="{% url 'invoices:list' %}" class="card-link">Zobacz więcej...</a>
             </div>
         </div>
 

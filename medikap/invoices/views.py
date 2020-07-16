@@ -109,8 +109,7 @@ class DetailsInvoice(generic.View):
 		request.session['invoice_id'] = current_invoice.id
 
 		services = Service.objects.all()
-		all_service_items = ServiceItem.objects.all().filter(faktura = current_invoice)
-
+		all_service_items = ServiceItem.objects.all().filter(faktura = current_invoice).order_by('usluga')
 
 		context = {
 			'invoice': current_invoice,

@@ -28,20 +28,30 @@
         </div>
         <div class="form-row">
             <div class="col-lg-6">
+                <br>
+                <h5>Wybierz usługi:</h5>
                 {% for field in form.uslugi %}
-                    <p>{{ forloop.counter }}</p>
                     <div>{{ field }}</div>
                 {% endfor %}
                 <br>
-                <h5 class="font-weight-bold">Zmień ilości:</h5>
+                <h5>Zmień ilości:</h5>
                 {% for service in services_items %}
                     <div>
-                        <p>{{ service.id }}</p>
-                        <label class="show-me" id='label-{{ forloop.counter }}'>{{ service.usluga.nazwa }}</label>
-                        <input class="form-control show-me" data-toggle="tooltip" title="wprowadź ilość" type="text" name='quantity-{{ service.id }}' id='quantity-{{ forloop.counter }}' value="{{ service.ilosc }}">
+                        <label class="show-me" >{{ service.usluga.nazwa }}</label>
+                        <input class="form-control show-me" data-toggle="tooltip" title="wprowadź ilość" type="text"  name='quantity-{{ service.id }}'  value="{{ service.ilosc }}">
                     </div>
                 {% endfor %}
             </div>
+            <div class="col-lg-6">
+                <div class="card" style="margin-top:25px;">
+                  <div class="card-body">
+                    <h5 class="card-title">UWAGA</h5>
+                    <p class="card-text">Po dokonaniu zmiany w pozycjach obecnych na fakturze, należy kliknąć:</p>
+                    <p class="card-text">"Aktualizuj dane". Wtedy pojawi się odpowiednie pole tekstowe do wpisania ilości.</p>
+                  </div>
+                </div>
+            </div>
+
         </div>
 
     </fieldset>
