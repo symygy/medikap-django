@@ -14,7 +14,6 @@ class Invoice(models.Model):
 	forma_platnosci = models.CharField(verbose_name='forma płatności', max_length=75, choices=forma_platnosci_wybor)
 	data_badania = models.DateField()
 	data_wystawienia_faktury = models.DateTimeField()
-	rabat = models.IntegerField(verbose_name='rabat [%]', blank=True, null=True)
 	uslugi = models.ManyToManyField(Service, verbose_name='usługi')
 
 	def __str__(self):
@@ -24,6 +23,7 @@ class ServiceItem(models.Model):
 	usluga = models.ForeignKey(Service, on_delete=models.CASCADE)
 	faktura = models.ForeignKey(Invoice, on_delete=models.CASCADE)
 	ilosc = models.PositiveIntegerField(default=1)
+	rabat = models.IntegerField(verbose_name='rabat [%]', blank=True, null=True, default=0)
 
 	def __str__(self):
 		return f'{self.usluga.nazwa} [faktura: {self.faktura}]'
@@ -32,3 +32,8 @@ class ServiceItem(models.Model):
 	def get_total_value(self):
 		total_value = self.usluga.cena * self.ilosc
 		return total_value
+
+	@property
+	def get_discounted_value(self):
+		discounted_value = (self.usluga.cena - (self.usluga.cena * self.rabat / 100)) * self.ilosc
+		return discounted_value

@@ -8,5 +8,4 @@ urlpatterns =[
     re_path(r'^detail/(?P<invoice_id>\d+)/$', views.DetailsInvoice.as_view(), name='detail'),
     path('delete/<int:pk>', views.DeleteInvoice.as_view(), name='delete'),
 
-
 ]

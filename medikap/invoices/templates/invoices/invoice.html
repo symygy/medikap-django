@@ -41,9 +41,10 @@
                 left: 300pt; width: 245pt; top: 220pt; height: 130pt;
             }
 
-            @frame content_frame {
+            @frame frame_services {
                 -pdf-frame-content: frame_services;
                 left: 50pt; width: 512pt; top: 380pt; height: 250pt;
+                -pdf-frame-border: 1;
             }
 
             @frame content_frame {
@@ -186,23 +187,27 @@
                         <th style="width: 50px;"> # </th>
                         <th style="width: 600px;"> Nazwa usługi</th>
                         <th style="width: 100px;"> Ilość</th>
+                        <th style="width: 100px;"> Rabat[%]</th>
                         <th style="width: 100px;"> Cena usługi</th>
                         <th style="width: 100px;"> Wartość</th>
+                        <th style="width: 100px;"> Wartość z rabatem:</th>
                     </tr>
 
-                    {% for service in invoice.usluga.all %}
-                        <tr>
-                            <td> {{ forloop.counter }} </td>
-                            <td> {{ service.nazwa }} </td>
-                            <td> 1 </td>
-                            <td> {{ service.cena|floatformat:"-2" }} PLN </td>
-                            <td> {{ service.cena|floatformat:"-2" }} PLN </td>
-                        </tr>
-                    {% endfor %}
+                {% for service in services_items %}
+                    <tr>
+                        <td> {{ forloop.counter }} </td>
+                        <td> {{ service.nazwa }} </td>
+                        <td> {{ service.ilosc }} </td>
+                        <td> {{ service.rabat }} </td>
+                        <td> {{ service.usluga.cena|floatformat:"-2" }} PLN </td>
+                        <td> {{ service.get_total_value|floatformat:"-2" }} PLN </td>
+                        <td> {{ service.get_discounted_value|floatformat:"-2" }} PLN </td>
+                    </tr>
+                {% endfor %}
                 </table>
             </div>
             <div id="frame_summary" class="summary">
-                <p> RAZEM: {{ total_invoice_value.total|floatformat:"-2" }} PLN</p>
+                <p> : {{ service.get_total_value }} PLN</p>
                 <p> Wartość z uwzględnieniem {{ invoice.rabat}}% rabatu: {{ discounted_value|floatformat:"-2" }} PLN</p>
             </div>
 

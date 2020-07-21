@@ -71,10 +71,16 @@ class NewInvoice(generic.View):
 			obj.data_wystawienia_faktury = self.now
 			obj.save()
 
+			services_counter = 0
+
 			for service in all_services:
-				quantity_input = request.POST.get('quantity-'+str(service.id))
+				quantity_input = request.POST.get('quantity-'+str(services_counter))
+				discount_input = request.POST.get('discount-'+str(services_counter))
+
+				services_counter += 1 #used for proper quality_input recognition
+
 				if int(quantity_input) > 0:
-					newServiceItem = ServiceItem(usluga=service, faktura=obj, ilosc=quantity_input)
+					newServiceItem = ServiceItem(usluga=service, faktura=obj, ilosc=quantity_input, rabat=discount_input)
 					newServiceItem.save()
 					obj.uslugi.add(service)
 					obj.save()
@@ -91,19 +97,6 @@ class DetailsInvoice(generic.View):
 	form_class = DetailInvoiceForm
 	success_url = reverse_lazy("invoices:list")
 
-	def calculate_total_value(self, obj):
-		return 999
-
-
-	def calculate_discouted_value(self, obj):
-		# total_value = self.calculate_total_value(obj)
-		# discounted_value = total_value['total'] - (total_value['total']*(obj.rabat/100))
-		#service_value = obj.usluga.cena - (obj.usluga.cena*(obj.rabat/100))
-
-		return 100
-		#return discounted_value
-
-
 	def get(self, request, invoice_id):
 		current_invoice = get_object_or_404(Invoice, id=invoice_id)
 		form = self.form_class(instance=current_invoice)
@@ -115,9 +108,6 @@ class DetailsInvoice(generic.View):
 		context = {
 			'invoice': current_invoice,
 			'form' : form,
-			'total_invoice_value' : self.calculate_total_value(current_invoice),
-			'discounted_value': self.calculate_discouted_value(current_invoice),
-
 			'services' : services,
 			'services_items' : all_service_items,
 		}
@@ -133,8 +123,6 @@ class DetailsInvoice(generic.View):
 
 		context = {
 			'invoice' : current_invoice,
-			'total_invoice_value' : self.calculate_total_value(current_invoice),
-			'discounted_value' : self.calculate_discouted_value(current_invoice)
 		}
 
 		pdf = render_to_pdf('invoices/invoice.html', context)
@@ -144,8 +132,10 @@ class DetailsInvoice(generic.View):
 			for service in all_service_items:
 				service_item = get_object_or_404(ServiceItem, id=service.id)
 				quantity_input = request.POST.get('quantity-' + str(service.id))
+				discount_input = request.POST.get('discount-' + str(service.id))
 
 				service_item.ilosc = int(quantity_input)
+				service_item.rabat = int(discount_input)
 				service_item.save()
 
 			form.save()

@@ -16,19 +16,20 @@
                 {{ form.data_badania | as_crispy_field}}
             </div>
         </div>
-        <div class="form-row">
-            <div class="col-lg-4">
-                {{ form.rabat | as_crispy_field }}
-            </div>
-        </div>
 
         <div class="form-row">
-            <div class="col-lg-4 ">
+            <div class="col-lg-4">
                 {% for field in form.uslugi %}
-                    <div>{{ field }}</div>
-                    <div>
-                        <input class="form-control hide-me" data-toggle="tooltip" title="wprowadź ilość" type="text" name='quantity-{{forloop.counter}}' id='quantity-{{forloop.counter}}' value="0">
+                    <div class="my-4">
+                        <div>{{ field }}</div>
+                        <div class="input-group" >
+                            <label class="input-group-text hide-me" id="lbl-quantity-{{forloop.counter0}}">ilość:</label>
+                            <input class="form-control hide-me mr-3" data-toggle="tooltip" title="wprowadź ilość" type="text" name='quantity-{{forloop.counter0}}' id='quantity-{{forloop.counter0}}' value="0">
+                            <label class="input-group-text hide-me" id="lbl-discount-{{forloop.counter0}}">rabat [%]:</label>
+                            <input class="form-control hide-me" data-toggle="tooltip" title="wartość rabatu w %" type="text" name='discount-{{forloop.counter0}}' id='discount-{{forloop.counter0}}' value="0">
+                        </div>
                     </div>
+
                 {% endfor %}
             </div>
         </div>

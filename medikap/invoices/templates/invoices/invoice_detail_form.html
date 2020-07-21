@@ -22,9 +22,6 @@
             <div class="col-lg-3">
                 {{ form.data_wystawienia_faktury | as_crispy_field}}
             </div>
-            <div class="col-lg-3">
-                {{ form.rabat | as_crispy_field}}
-            </div>
         </div>
         <div class="form-row">
             <div class="col-lg-6">
@@ -34,11 +31,18 @@
                     <div>{{ field }}</div>
                 {% endfor %}
                 <br>
-                <h5>Zmień ilości:</h5>
+                <h5>Zmień ilość lub rabat:</h5>
                 {% for service in services_items %}
-                    <div>
-                        <label class="show-me" >{{ service.usluga.nazwa }}</label>
-                        <input class="form-control show-me" data-toggle="tooltip" title="wprowadź ilość" type="text"  name='quantity-{{ service.id }}'  value="{{ service.ilosc }}">
+                    <div class="mb-4">
+                        <div>
+                            <label class="show-me" >{{ service.usluga.nazwa }}</label>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-group-text show-me" id="lbl-quantity-{{ service.id }}">ilość:</label>
+                            <input class="form-control show-me mr-3" data-toggle="tooltip" title="wprowadź ilość" type="text"  name='quantity-{{ service.id }}'  value="{{ service.ilosc }}">
+                            <label class="input-group-text show-me" id="lbl-discount-{{ service.id }}">rabat [%]:</label>
+                            <input class="form-control show-me" data-toggle="tooltip" title="wprowadź rabat" type="text"  name='discount-{{ service.id }}'  value="{{ service.rabat }}">
+                        </div>
                     </div>
                 {% endfor %}
             </div>

@@ -23,7 +23,7 @@
             {% for service in all_services %}
                 <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ service.nazwa }}</td>
+                    <td>{{ service.nazwa }} {{service.id}}</td>
                     <td>{{ service.cena | floatformat:2 }}</td>
                     <td>
                         <form method="post" action="{% url 'services:delete_service' service.pk %}">

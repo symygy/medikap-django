@@ -108,7 +108,8 @@ function validateForm() {
     }
 
     for (var i=0; i<checkboxes.length; i++) {
-        var value = checkboxes[i].value
+        var value = checkboxes[i].id.slice(10,);
+        console.log(value)
         var element = document.getElementById('quantity-'+value);
         if (element.value == "" || isNaN(element.value) || !element.value.replace(/\s/g, '').length || element.value == '0')
             {
@@ -123,15 +124,26 @@ function validateForm() {
 
 <script>
 $('input[type="checkbox"]').click(function(){
-            var value = this.value;
+
+            var value = this.id.slice(10,);
             var element = document.getElementById('quantity-'+value);
             var label = document.getElementById('label-'+value);
+            var discount = document.getElementById('discount-'+value);
+            var lbl_discount = document.getElementById('lbl-discount-'+value);
+            var lbl_quantity = document.getElementById('lbl-quantity-'+value);
+
 
             if($(this).is(":checked")){
                 $(element).addClass("show-me");
                 $(element).removeClass("hide-me");
                 $(label).addClass("show-me");
                 $(label).removeClass("hide-me");
+                $(discount).addClass("show-me");
+                $(discount).removeClass("hide-me");
+                $(lbl_discount).addClass("show-me");
+                $(lbl_discount).removeClass("hide-me");
+                $(lbl_quantity).addClass("show-me");
+                $(lbl_quantity).removeClass("hide-me");
             }
 
             else if($(this).is(":not(:checked)")){
@@ -139,6 +151,12 @@ $('input[type="checkbox"]').click(function(){
                 $(element).removeClass("show-me");
                 $(label).addClass("hide-me");
                 $(label).removeClass("show-me");
+                $(discount).addClass("hide-me");
+                $(discount).removeClass("show-me");
+                $(lbl_discount).addClass("hide-me");
+                $(lbl_discount).removeClass("show-me");
+                $(lbl_quantity).addClass("hide-me");
+                $(lbl_quantity).removeClass("show-me");
             }
         });
 </script>
