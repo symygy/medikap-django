@@ -28,6 +28,7 @@
                 <button class="btn btn-light" type="button"><a class="navbar-elements" href="{% url 'clients:list' %}"><i class="far fa-list-alt"></i> lista klientów </a></button>
                 <button class="btn btn-light" type="button"><a class="navbar-elements" href="{% url 'invoices:list' %}"><i class="fas fa-search-dollar"></i> spis faktur </a></button>
                 <button class="btn btn-light" type="button"><a class="navbar-elements" href="{% url 'companies:list' %}"><i class="far fa-address-book"></i> baza firm </a></button>
+                <button class="btn btn-light" type="button"><a class="navbar-elements" href="{% url 'services:list' %}"><i class="fas fa-toolbox"></i> usługi </a></button>
                 <button class="btn btn-light" type="button">
                     <a class="navbar-elements" href="{% url 'msg:inbox' %}">
                         <i class="fas fa-inbox"></i>
@@ -56,11 +57,12 @@
             <ul class="sidebar-nav">
                 <li><a class="" href="{% url 'clients:new' %}"><i class="far fa-plus-square"></i> Dodaj klienta</a></li>
                 <li><a class="" href="{% url 'companies:new' %}"><i class="far fa-plus-square"></i> Dodaj firmę</a></li>
+                <li><a class="" href="{% url 'services:new' %}"><i class="far fa-plus-square"></i> Dodaj usługę</a></li>
                 <li><a class="" href="{% url 'msg:new' %}"><i class="far fa-envelope"></i> Wyślij wiadomość</a></li>
                 <li><a class="" href="{% url 'invoices:new' %}"><i class="fas fa-file-invoice-dollar"></i> Przygotuj fakturę</a></li>
             </ul>
             <div class="text-center">
-                <a href="#" class="btn btn-info"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
+                <a href="{% url 'logout' %}" class="btn btn-info"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
             </div>
             <div class="media logo">
                 <img src="{% static 'board/logo.png' %}" alt="logo">
@@ -131,6 +133,7 @@ $('input[type="checkbox"]').click(function(){
                 $(label).addClass("show-me");
                 $(label).removeClass("hide-me");
             }
+
             else if($(this).is(":not(:checked)")){
                 $(element).addClass("hide-me");
                 $(element).removeClass("show-me");

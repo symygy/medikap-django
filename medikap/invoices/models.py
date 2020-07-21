@@ -1,13 +1,7 @@
 from django.db import models
 from companies.models import Company
 from django.utils import timezone
-
-class Service(models.Model):
-	nazwa = models.CharField(max_length=100)
-	cena = models.FloatField()
-
-	def __str__(self):
-		return f'{self.nazwa} - cena: {self.cena}zł'
+from services.models import Service
 
 class Invoice(models.Model):
 	forma_platnosci_wybor = [

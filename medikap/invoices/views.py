@@ -1,13 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
 from django.views import generic
 from django.urls import reverse_lazy
-from .models import Invoice, Service, ServiceItem
+from .models import Invoice, ServiceItem
 from .forms import InvoiceListForm, NewInvoiceForm, DetailInvoiceForm
 import datetime
 from django.http import HttpResponse, JsonResponse
 from medikap.utils import render_to_pdf
 from django.contrib import messages
 import json
+from services.models import Service
 from django.forms import inlineformset_factory
 
 
@@ -143,7 +144,6 @@ class DetailsInvoice(generic.View):
 			for service in all_service_items:
 				service_item = get_object_or_404(ServiceItem, id=service.id)
 				quantity_input = request.POST.get('quantity-' + str(service.id))
-				print(service.id)
 
 				service_item.ilosc = int(quantity_input)
 				service_item.save()
@@ -178,22 +178,9 @@ class DeleteInvoice(generic.DeleteView):
 	template_name_suffix = "_delete"
 	success_url = reverse_lazy('invoices:list')
 
-def updateInvoice(request):
-	invoice_id = request.session.get('invoice_id')
-	invoice = get_object_or_404(Invoice, id=invoice_id)
-
-	data = json.loads(request.body)
-	serviceId = data['serviceId']
-	action = data['action']
-	quantity = data['quantity']
-
-	service = get_object_or_404(Service, id=serviceId)
 
 
-	service_item = get_object_or_404(ServiceItem, usluga=service, faktura=invoice, ilosc=quantity)
-	print('************************************************')
-	print(service_item)
-  # zriobic sprawdzanie czy obiekt istnieje. jesli nie to utworzyc jesli tak to edytowac)
+
 
 
 
