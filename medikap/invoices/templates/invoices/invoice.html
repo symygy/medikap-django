@@ -43,17 +43,35 @@
 
             @frame content_frame {
                 -pdf-frame-content: frame_services;
-                left: 50pt; width: 512pt; top: 380pt; height: 150pt;
-
+                left: 50pt; width: 512pt; top: 380pt; height: 250pt;
             }
 
-            @frame footer_frame {           /* Another static Frame */
+            @frame content_frame {
+                -pdf-frame-content: frame_summary;
+                left: 465pt; width: 100pt; top: 490pt; height: 50pt;
+            }
+
+            @frame content_frame {
+                -pdf-frame-content: frame_vat;
+                left: 50pt; width: 512pt; top: 550pt; height: 150pt;
+            }
+
+            @frame content_frame {
+                -pdf-frame-content: frame_signatures_left;
+                left: 50pt; width: 140pt; top: 725pt; height: 70pt;
+            }
+
+            @frame content_frame {
+                -pdf-frame-content: frame_signatures_right;
+                left: 400pt; width: 140pt; top: 725pt; height: 70pt;
+                left: 400pt; width: 140pt; top: 725pt; height: 70pt;
+            }
+
+            @frame content_frame {
                 -pdf-frame-content: footer_content;
-                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
-                -pdf-frame-border: 1;
+                left: 50pt; width: 512pt; top: 775pt; height: 50pt;
             }
     }
-
 
         body {
           background-color: white;
@@ -73,11 +91,16 @@
             font-size: 18px;
             font-family: "Roboto-bold", sans-serif;
         }
+
         .col-titles {
             font-size: 16px;
             text-decoration: underline;
-
             font-family: "Roboto-bold", sans-serif;
+         }
+
+         .footer {
+            font-size: 8px;
+            text-align: center;
          }
 
          p{
@@ -95,6 +118,16 @@
             vertical-align: middle;
         }
 
+        .summary{
+             border-bottom: 1px solid #ddd;
+        }
+
+        .signatures {
+            border-top: 1px solid black;
+            font-size: 8px;
+            text-align: center;
+        }
+
          th {
             height: 36px;
 
@@ -102,6 +135,7 @@
          td {
             height: 25px;
          }
+
 
       </style>
     </head>
@@ -149,24 +183,47 @@
             <div id="frame_services">
                 <table>
                     <tr>
-                        <th style="width: 30px;"> # </th>
+                        <th style="width: 50px;"> # </th>
                         <th style="width: 600px;"> Nazwa usługi</th>
+                        <th style="width: 100px;"> Ilość</th>
                         <th style="width: 100px;"> Cena usługi</th>
-
+                        <th style="width: 100px;"> Wartość</th>
                     </tr>
 
                     {% for service in invoice.usluga.all %}
                         <tr>
                             <td> {{ forloop.counter }} </td>
                             <td> {{ service.nazwa }} </td>
+                            <td> 1 </td>
+                            <td> {{ service.cena|floatformat:"-2" }} PLN </td>
                             <td> {{ service.cena|floatformat:"-2" }} PLN </td>
                         </tr>
                     {% endfor %}
                 </table>
-                <br>
-                <p>Wartość: {{ total_invoice_value.total|floatformat:"-2" }} PLN</p>
-                <p>Wartość z uwzględnieniem {{ invoice.rabat}}% rabatu: {{ discounted_value|floatformat:"-2" }} PLN</p>
+            </div>
+            <div id="frame_summary" class="summary">
+                <p> RAZEM: {{ total_invoice_value.total|floatformat:"-2" }} PLN</p>
+                <p> Wartość z uwzględnieniem {{ invoice.rabat}}% rabatu: {{ discounted_value|floatformat:"-2" }} PLN</p>
+            </div>
 
+            <div id="frame_vat">
+                <p> Podstawa zwolnienia z VAT: </p>
+                <p> Zwolnienie ze względu na zakres wykonywanych czynności (art. 43 ust.1) pkt 19 Ustawy o VAT</p>
+            </div>
+
+            <div id="frame_signatures_left">
+                <p class="signatures"> podpis osoby upoważnionej do odbioru faktury</p>
+            </div>
+
+            <div id="frame_signatures_right">
+                <p class="signatures"> podpis osoby upoważnionej do wystawienia faktury</p>
+            </div>
+
+            <div id="footer_content" >
+                <p class="footer">MEDIKAP Maria K.</p>
+                <p class="footer">Plac Grunwaldzki 15B, 33-240 Żabno</p>
+                <p class="footer">e-mail: gabinet.medikap@gmail.com tel: 539 993 332</p>
+                <p class="footer">NIP: 9930212793 REGON: 852441210</p>
             </div>
 
         </div>

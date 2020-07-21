@@ -1,4 +1,5 @@
 {% load crispy_forms_tags %}
+{% load invoices.serviceItemTag %}
 
     <fieldset>
         <div class="form-row">
@@ -12,22 +13,45 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 {{ form.forma_platnosci | as_crispy_field}}
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 {{ form.data_badania | as_crispy_field}}
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 {{ form.data_wystawienia_faktury | as_crispy_field}}
             </div>
-        </div>
-        <div class="form-row">
             <div class="col-lg-3">
                 {{ form.rabat | as_crispy_field}}
             </div>
-            <div class="col-lg-9">
-                {{ form.usluga | as_crispy_field}}
-            </div>
         </div>
+        <div class="form-row">
+            <div class="col-lg-6">
+                <br>
+                <h5>Wybierz usługi:</h5>
+                {% for field in form.uslugi %}
+                    <div>{{ field }}</div>
+                {% endfor %}
+                <br>
+                <h5>Zmień ilości:</h5>
+                {% for service in services_items %}
+                    <div>
+                        <label class="show-me" >{{ service.usluga.nazwa }}</label>
+                        <input class="form-control show-me" data-toggle="tooltip" title="wprowadź ilość" type="text"  name='quantity-{{ service.id }}'  value="{{ service.ilosc }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-6">
+                <div class="card" style="margin-top:25px;">
+                  <div class="card-body">
+                    <h5 class="card-title">UWAGA</h5>
+                    <p class="card-text">Po dokonaniu zmiany w pozycjach obecnych na fakturze, należy kliknąć:</p>
+                    <p class="card-text">"Aktualizuj dane". Wtedy pojawi się odpowiednie pole tekstowe do wpisania ilości.</p>
+                  </div>
+                </div>
+            </div>
+
+        </div>
+
     </fieldset>

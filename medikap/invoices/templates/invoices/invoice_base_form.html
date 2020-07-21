@@ -1,6 +1,8 @@
 {% load crispy_forms_tags %}
+{% load static %}
 
     <fieldset>
+
         <div class="form-row">
             <div class="col-lg-4">
                 {{ form.firma | as_crispy_field}}
@@ -16,12 +18,19 @@
         </div>
         <div class="form-row">
             <div class="col-lg-4">
-                {{ form.rabat | as_crispy_field}}
+                {{ form.rabat | as_crispy_field }}
             </div>
         </div>
+
         <div class="form-row">
-            <div class="col-lg-4">
-                {{ form.usluga | as_crispy_field}}
+            <div class="col-lg-4 ">
+                {% for field in form.uslugi %}
+                    <div>{{ field }}</div>
+                    <div>
+                        <input class="form-control hide-me" data-toggle="tooltip" title="wprowadź ilość" type="text" name='quantity-{{forloop.counter}}' id='quantity-{{forloop.counter}}' value="0">
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </fieldset>
+

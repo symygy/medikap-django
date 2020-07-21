@@ -1,6 +1,12 @@
 {% extends 'board/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
+{% for message in messages %}
+        <div class="alert alert-success">
+            <a class="close" href="#" data-dismiss="alert">×</a>
+            {{ message }}
+        </div>
+{% endfor %}
 <legend class="col-12">Informacje o firmie</legend>
 <div class="container-fluid">
     <div class="row">
@@ -26,6 +32,7 @@
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% include 'invoices/invoice_detail_form.html' %}
+                        <br>
                         <button type="submit" name="update-data" class="btn btn-info"><i class="far fa-edit"></i> Aktualizuj dane</button>
                     </form>
                 </p>

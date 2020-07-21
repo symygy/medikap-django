@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>MEDIKAP</title>
 {% load static %}
-{% load inbox_tags%}
+{% load inbox_tags %}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://kit.fontawesome.com/35c7ba605c.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{% static 'board/base.css' %}">
 
 </head>
@@ -27,13 +28,14 @@
                 <button class="btn btn-light" type="button"><a class="navbar-elements" href="{% url 'clients:list' %}"><i class="far fa-list-alt"></i> lista klientów </a></button>
                 <button class="btn btn-light" type="button"><a class="navbar-elements" href="{% url 'invoices:list' %}"><i class="fas fa-search-dollar"></i> spis faktur </a></button>
                 <button class="btn btn-light" type="button"><a class="navbar-elements" href="{% url 'companies:list' %}"><i class="far fa-address-book"></i> baza firm </a></button>
+                <button class="btn btn-light" type="button"><a class="navbar-elements" href="{% url 'services:list' %}"><i class="fas fa-toolbox"></i> usługi </a></button>
                 <button class="btn btn-light" type="button">
                     <a class="navbar-elements" href="{% url 'msg:inbox' %}">
                         <i class="fas fa-inbox"></i>
                         skrzynka odbiorcza
                         {% unread_msg_counter as unread_msg_counter_flag %}
                         {% if unread_msg_counter_flag != 0 %}
-                        <span class="badge badge-pill badge-danger">{% unread_msg_counter %} </span>
+                            <span class="badge badge-pill badge-danger">{% unread_msg_counter %} </span>
                         {% endif %}
                     </a>
                 </button>
@@ -55,11 +57,12 @@
             <ul class="sidebar-nav">
                 <li><a class="" href="{% url 'clients:new' %}"><i class="far fa-plus-square"></i> Dodaj klienta</a></li>
                 <li><a class="" href="{% url 'companies:new' %}"><i class="far fa-plus-square"></i> Dodaj firmę</a></li>
+                <li><a class="" href="{% url 'services:new' %}"><i class="far fa-plus-square"></i> Dodaj usługę</a></li>
                 <li><a class="" href="{% url 'msg:new' %}"><i class="far fa-envelope"></i> Wyślij wiadomość</a></li>
                 <li><a class="" href="{% url 'invoices:new' %}"><i class="fas fa-file-invoice-dollar"></i> Przygotuj fakturę</a></li>
             </ul>
             <div class="text-center">
-                <a href="#" class="btn btn-info"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
+                <a href="{% url 'logout' %}" class="btn btn-info"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
             </div>
             <div class="media logo">
                 <img src="{% static 'board/logo.png' %}" alt="logo">
@@ -71,6 +74,14 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
+                        {% for message in messages %}
+                            {% if 'error' in message.tags %}
+                                <div class="alert alert-danger">
+                                    <a class="close" href="#" data-dismiss="alert">×</a>
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                         {% block content %}
                         {% endblock %}
                     </div>
@@ -86,6 +97,53 @@
     });
 </script>
 
+<script type="text/javascript">
+function validateForm() {
+    var elements = document.querySelectorAll("[name^=uslugi]")
+    var checkboxes = document.querySelectorAll('input[name="uslugi"]:checked');
+
+    if (checkboxes.length == 0) {
+        alert("Musisz wybrać usługi, które chcesz dodać do faktury!");
+        return false;
+    }
+
+    for (var i=0; i<checkboxes.length; i++) {
+        var value = checkboxes[i].value
+        var element = document.getElementById('quantity-'+value);
+        if (element.value == "" || isNaN(element.value) || !element.value.replace(/\s/g, '').length || element.value == '0')
+            {
+            alert("Jeżeli usługa została wybrana to należy wpisać jej ilość, która będzie większa niż 0");
+            return false;
+            }
+    }
+    return true;
+}
+</script>
+
+
+<script>
+$('input[type="checkbox"]').click(function(){
+            var value = this.value;
+            var element = document.getElementById('quantity-'+value);
+            var label = document.getElementById('label-'+value);
+
+            if($(this).is(":checked")){
+                $(element).addClass("show-me");
+                $(element).removeClass("hide-me");
+                $(label).addClass("show-me");
+                $(label).removeClass("hide-me");
+            }
+
+            else if($(this).is(":not(:checked)")){
+                $(element).addClass("hide-me");
+                $(element).removeClass("show-me");
+                $(label).addClass("hide-me");
+                $(label).removeClass("show-me");
+            }
+        });
+</script>
+
+
 <script>
     $(function () {
         $('.datetime-input').datetimepicker({
@@ -94,5 +152,24 @@
     });
 </script>
 
+<script type="text/javascript" src="{% static 'js/services.js' %}"></script>
+<script type="text/javascript">
+    function getToken(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getToken('csrftoken');
+</script>
 </body>
 </html>

@@ -84,3 +84,24 @@
     position: absolute;
     bottom: 0;
 }
+
+.cart-row{
+	display: flex;
+    align-items: flex-stretch;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+
+.form-control-hide{
+    display: none;
+}
+
+.hide-me{
+    display: none;
+}
+
+.show-me{
+    display: inline-block;
+}
+
+

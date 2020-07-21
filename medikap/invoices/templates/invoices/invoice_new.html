@@ -2,9 +2,11 @@
 {% block content %}
     <legend class="col-12">Tworzenie nowej faktury</legend>
     <p></p>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()" name="newInvoiceForm">
         {% csrf_token %}
         {% include 'invoices/invoice_base_form.html' %}
+        <br>
         <button type="submit" class="btn btn-info"><i class="far fa-edit"></i> Zatwierdź fakturę</button>
     </form>
+
 {% endblock%}
