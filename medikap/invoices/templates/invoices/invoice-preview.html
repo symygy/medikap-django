@@ -1,0 +1,100 @@
+<html>
+<head></head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="/static/invoices/logo.png">
+            </div>
+            <div class="col-md-5 offset-md-3">
+                <p>Miejsce wystawienia: Żabno</p>
+                <p>Data badania: {{ invoice.data_badania }}</p>
+                <p>Data wystawienia: {{ invoice.data_wystawienia_faktury }}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col mt-4">
+                <h2>Faktura nr: {{ invoice.numer }}</h2>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-5">
+                <h4>Sprzedawca</h4>
+                <div>
+                    <br>MEDIKAP
+                    <br>ul. Plac Grunwaldzki 15B, 33-240 Żabno
+                    <br>NIP: 999999999
+                    <br>REGON: 9999999
+                    <br>Bank: ING Bank Śląski
+                    <br>Nr konta: 12 1234 1234 1243 1243 214 1244
+                </div>
+            </div>
+            <div class="col-md-5 offset-md-2">
+                <h4>Nabywca</h4>
+                <div>
+                    <br>{{ invoice.firma}}
+                    <br>ul. {{ invoice.firma.ulica }}, {{ invoice.firma.kod_pocztowy }} {{ invoice.firma.miasto}}
+                    <br>NIP: {{ invoice.firma.nip }}
+                    <br>REGON: {{ invoice.firma.regon }}
+                    <br>forma płatności: {{ invoice.get_forma_platnosci_display }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col">
+                <table class="table">
+                  <thead>
+                    <tr>
+                        <th> # </th>
+                        <th> Nazwa usługi</th>
+                        <th> Ilość</th>
+                        <th> Rabat [%]</th>
+                        <th> Cena </th>
+                        <th> Wartość</th>
+                        <th> Wartość po rabacie</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for service in services_items %}
+                        <tr>
+                            <td> {{ forloop.counter }} </td>
+                            <td> {{ service.usluga.nazwa }} </td>
+                            <td> {{ service.ilosc }} </td>
+                            <td> {{ service.rabat }} </td>
+                            <td> {{ service.usluga.cena|floatformat:"-2" }} PLN </td>
+                            <td> {{ service.get_total_value|floatformat:"-2" }} PLN </td>
+                            <td> {{ service.get_discounted_value|floatformat:"-2" }} PLN </td>
+                        </tr>
+                    {% empty %}
+                    <tr>
+                        <td>1</td>
+                        <td style="width: 500px;">Brak zaznaczonych usług do wyświetlenia na fakturze.</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+                <div class="row mt-4 mb-4">
+                    <div class="col">
+                        <strong>
+                            Razem: {{ total_value|floatformat:"2" }} PLN
+                            <br>
+                            Wartość z uwzględnieniem rabatu: {{ total_discounted_value|floatformat:"2" }} PLN
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+
+
+

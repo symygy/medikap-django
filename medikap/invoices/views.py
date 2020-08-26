@@ -4,12 +4,11 @@ from django.urls import reverse_lazy
 from .models import Invoice, ServiceItem
 from .forms import InvoiceListForm, NewInvoiceForm, DetailInvoiceForm
 import datetime
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from medikap.utils import render_to_pdf
 from django.contrib import messages
-import json
 from services.models import Service
-from django.forms import inlineformset_factory
+from django.db.models import Sum
 
 
 class InvoiceList(generic.View):
@@ -105,11 +104,16 @@ class DetailsInvoice(generic.View):
 		services = Service.objects.all()
 		all_service_items = ServiceItem.objects.all().filter(faktura = current_invoice).order_by('usluga')
 
+		total_value = sum(service_item.get_total_value for service_item in all_service_items)
+		total_discounted_value = sum(service_item.get_discounted_value for service_item in all_service_items)
+
 		context = {
 			'invoice': current_invoice,
 			'form' : form,
 			'services' : services,
 			'services_items' : all_service_items,
+			'total_value': total_value,
+			'total_discounted_value': total_discounted_value
 		}
 
 		return render(request, self.template_name, context)
@@ -119,10 +123,16 @@ class DetailsInvoice(generic.View):
 		current_invoice = get_object_or_404(Invoice, id=invoice_id)
 		form = self.form_class(request.POST, instance=current_invoice)
 
-		all_service_items = ServiceItem.objects.all().filter(faktura=current_invoice)
+		all_service_items = ServiceItem.objects.all().filter(faktura = current_invoice).order_by('usluga')
+
+		total_value = sum(service_item.get_total_value for service_item in all_service_items)
+		total_discounted_value = sum(service_item.get_discounted_value for service_item in all_service_items)
 
 		context = {
 			'invoice' : current_invoice,
+			'services_items': all_service_items,
+			'total_value' : total_value,
+			'total_discounted_value' : total_discounted_value
 		}
 
 		pdf = render_to_pdf('invoices/invoice.html', context)
@@ -160,7 +170,7 @@ class DetailsInvoice(generic.View):
 			response['Content-Disposition'] = content
 			return response
 		else:
-			# dodać komunikat o błędzie
+			messages.error(request, 'Coś poszło nie tak. Twoje ostatnie działanie mogło nie zostać przetworzone poprawnie.')
 			return redirect('invoices:list')
 
 class DeleteInvoice(generic.DeleteView):

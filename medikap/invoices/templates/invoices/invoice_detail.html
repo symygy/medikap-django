@@ -7,7 +7,7 @@
             {{ message }}
         </div>
 {% endfor %}
-<legend class="col-12">Informacje o firmie</legend>
+<legend class="col-12">Szczegóły faktury nr: {{ invoice.numer }}</legend>
 <div class="container-fluid">
     <div class="row">
         <div class="card col-xl-6 col-lg-12 col-md-12 mb-3" >
@@ -16,7 +16,7 @@
                 <p class="card-text">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        {% include 'invoices/invoice.html' %}
+                        {% include 'invoices/invoice-preview.html' %}
                         <button type="submit" name="view-pdf" class="btn btn-info">Wyświetl jako PDF</button>
                         <button type="submit" name="download-pdf" class="btn btn-info">Pobierz jako PDF</button>
                         <a href="{% url 'invoices:delete' invoice.id %}" class="btn btn-secondary"><i class="far fa-trash-alt"></i> Usuń </a>

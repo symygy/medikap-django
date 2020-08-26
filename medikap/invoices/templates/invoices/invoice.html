@@ -2,7 +2,6 @@
     <head>
         {% load static %}
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta charset="UTF-8">
       <style>
         @font-face {
             font-family: Roboto;
@@ -44,17 +43,16 @@
             @frame frame_services {
                 -pdf-frame-content: frame_services;
                 left: 50pt; width: 512pt; top: 380pt; height: 250pt;
-                -pdf-frame-border: 1;
             }
 
             @frame content_frame {
                 -pdf-frame-content: frame_summary;
-                left: 465pt; width: 100pt; top: 490pt; height: 50pt;
+                left: 400pt; width: 200pt; top: 690pt; height: 50pt;
             }
 
             @frame content_frame {
                 -pdf-frame-content: frame_vat;
-                left: 50pt; width: 512pt; top: 550pt; height: 150pt;
+                left: 50pt; width: 512pt; top: 650pt; height: 150pt;
             }
 
             @frame content_frame {
@@ -65,12 +63,11 @@
             @frame content_frame {
                 -pdf-frame-content: frame_signatures_right;
                 left: 400pt; width: 140pt; top: 725pt; height: 70pt;
-                left: 400pt; width: 140pt; top: 725pt; height: 70pt;
             }
 
             @frame content_frame {
                 -pdf-frame-content: footer_content;
-                left: 50pt; width: 512pt; top: 775pt; height: 50pt;
+                left: 50pt; width: 512pt; top: 785pt; height: 50pt;
             }
     }
 
@@ -120,7 +117,14 @@
         }
 
         .summary{
-             border-bottom: 1px solid #ddd;
+            border: 0px solid #ddd;
+            margin-top: 15px;
+            margin-left: 450px;
+            font-family: "Roboto-bold", sans-serif;
+        }
+
+        .vat {
+            font-size: 9px;
         }
 
         .signatures {
@@ -177,7 +181,7 @@
                     <p> {{ invoice.firma.kod_pocztowy }} {{ invoice.firma.miasto}}</p>
                     <p> NIP: {{ invoice.firma.nip }}</p>
                     <p> REGON: {{ invoice.firma.regon }}</p>
-                    <p> forma płatności: {{ invoice.get_forma_platnosci_display}}</p>
+                    <p> forma płatności: {{ invoice.get_forma_platnosci_display }}</p>
                 </div>
             </div>
 
@@ -185,35 +189,44 @@
                 <table>
                     <tr>
                         <th style="width: 50px;"> # </th>
-                        <th style="width: 600px;"> Nazwa usługi</th>
-                        <th style="width: 100px;"> Ilość</th>
-                        <th style="width: 100px;"> Rabat[%]</th>
-                        <th style="width: 100px;"> Cena usługi</th>
+                        <th style="width: 400px;"> Nazwa usługi</th>
+                        <th style="width: 50px;"> Ilość</th>
+                        <th style="width: 75px;"> Rabat [%]</th>
+                        <th style="width: 100px;"> Cena </th>
                         <th style="width: 100px;"> Wartość</th>
-                        <th style="width: 100px;"> Wartość z rabatem:</th>
+                        <th style="width: 100px;"> Wartość po rabacie</th>
                     </tr>
-
-                {% for service in services_items %}
+                    {% for service in services_items %}
+                        <tr>
+                            <td> {{ forloop.counter }} </td>
+                            <td> {{ service.usluga.nazwa }} </td>
+                            <td> {{ service.ilosc }} </td>
+                            <td> {{ service.rabat }} </td>
+                            <td> {{ service.usluga.cena|floatformat:"-2" }} PLN </td>
+                            <td> {{ service.get_total_value|floatformat:"-2" }} PLN </td>
+                            <td> {{ service.get_discounted_value|floatformat:"-2" }} PLN </td>
+                        </tr>
+                    {% empty %}
                     <tr>
-                        <td> {{ forloop.counter }} </td>
-                        <td> {{ service.nazwa }} </td>
-                        <td> {{ service.ilosc }} </td>
-                        <td> {{ service.rabat }} </td>
-                        <td> {{ service.usluga.cena|floatformat:"-2" }} PLN </td>
-                        <td> {{ service.get_total_value|floatformat:"-2" }} PLN </td>
-                        <td> {{ service.get_discounted_value|floatformat:"-2" }} PLN </td>
+                        <td>1</td>
+                        <td style="width: 500px;">Brak zaznaczonych usług do wyświetlenia na fakturze.</td>
                     </tr>
-                {% endfor %}
+                    {% endfor %}
                 </table>
-            </div>
-            <div id="frame_summary" class="summary">
-                <p> : {{ service.get_total_value }} PLN</p>
-                <p> Wartość z uwzględnieniem {{ invoice.rabat}}% rabatu: {{ discounted_value|floatformat:"-2" }} PLN</p>
+                <div class="summary">
+                    <strong>
+                        Razem: {{ total_value|floatformat:"2" }} PLN
+                        <br>
+                        Wartość z uwzględnieniem rabatu: {{ total_discounted_value|floatformat:"2" }} PLN
+                    </strong>
+                </div>
             </div>
 
-            <div id="frame_vat">
-                <p> Podstawa zwolnienia z VAT: </p>
-                <p> Zwolnienie ze względu na zakres wykonywanych czynności (art. 43 ust.1) pkt 19 Ustawy o VAT</p>
+            <div id="frame_vat" class="vat">
+                <span> Podstawa zwolnienia z VAT:
+                    <br>Zwolnienie ze względu na zakres wykonywanych czynności (art. 43 ust.1) pkt 19 Ustawy o VAT
+                </span>
+
             </div>
 
             <div id="frame_signatures_left">
@@ -224,11 +237,13 @@
                 <p class="signatures"> podpis osoby upoważnionej do wystawienia faktury</p>
             </div>
 
-            <div id="footer_content" >
-                <p class="footer">MEDIKAP Maria K.</p>
-                <p class="footer">Plac Grunwaldzki 15B, 33-240 Żabno</p>
-                <p class="footer">e-mail: gabinet.medikap@gmail.com tel: 539 993 332</p>
-                <p class="footer">NIP: 9930212793 REGON: 852441210</p>
+            <div id="footer_content" class="footer">
+                <span>
+                    MEDIKAP Maria K.
+                    <br>Plac Grunwaldzki 15B, 33-240 Żabno
+                    <br>e-mail: gabinet.medikap@gmail.com tel: 539 993 332
+                    <br>NIP: 9930212793 REGON: 852441210
+                </span>
             </div>
 
         </div>
