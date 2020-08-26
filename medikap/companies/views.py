@@ -24,13 +24,6 @@ class NewCompany(generic.CreateView):
     fields = "__all__"
     success_url = reverse_lazy('companies:list')
 
-# class UpdateCompany(generic.UpdateView):
-#     model = Company
-#     # template_name_suffix = "_update"
-#     fields = '__all__'
-#     success_url = reverse_lazy('companies:list')
-
-
 class DetailsCompany(generic.View):
     template_name = 'companies/company_detail.html'
     form_class = DetailForm

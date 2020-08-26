@@ -4,8 +4,15 @@
 }
 
 .navbar-elements{
+
     text-decoration: none;
     color: #bbb;
+
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    padding: 2em;
+    margin: -2em;
 }
 
 .navbar-elements:hover{
@@ -28,7 +35,6 @@
 
 /* Sidebar */
 #sidebar-wrapper{
-    height: 95%;
     width: 0;
     z-index: 1; /* Stay on top */
     position: absolute;
@@ -102,6 +108,11 @@
 
 .show-me{
     display: inline-block;
+}
+
+.fa-question-circle:hover {
+    color: red;
+    cursor: pointer;
 }
 
 

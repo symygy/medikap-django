@@ -26,7 +26,8 @@
         <div class="form-row">
             <div class="col-lg-6">
                 <br>
-                <h5>Wybierz usługi: <i class="far fa-question-circle fa-lg"></i></h5>
+                <h5>Wybierz usługi: <i class="far fa-question-circle fa-lg" data-toggle="popover" title="Podpowiedź" data-placement="bottom" data-content="Po dokonaniu zmiany w pozycjach obecnych na fakturze, należy kliknąć: Aktualizuj dane. Wtedy pojawi się odpowiednie pole tekstowe do wpisania ilości."></i></h5>
+
                 {% for field in form.uslugi %}
                     <div>{{ field }}</div>
                 {% endfor %}
@@ -46,18 +47,5 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="col-lg-6">
-                <div class="card" style="margin-top:25px;">
-                  <div class="card-body">
-
-
-                    <h5 class="card-title">UWAGA</h5>
-                    <p class="card-text">Po dokonaniu zmiany w pozycjach obecnych na fakturze, należy kliknąć:</p>
-                    <p class="card-text">"Aktualizuj dane". Wtedy pojawi się odpowiednie pole tekstowe do wpisania ilości.</p>
-                  </div>
-                </div>
-            </div>
-
         </div>
-
     </fieldset>
