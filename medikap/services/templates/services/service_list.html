@@ -9,12 +9,12 @@
 {% endfor %}
 <h2>Usługi</h2>
 <div class="table-responsive">
-    <table class="table table-striped borderless text-center">
+    <table id="services-list" class="table table-striped borderless text-center" data-search="true" data-show-multi-sort="true" data-show-columns="true">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
+                <th scope="col" data-sortable="true">#</th>
                 {% for field in form %}
-                <th scope="col">{{ field.label_tag }} </th>
+                <th scope="col" data-sortable="true">{{ field.label_tag }} </th>
                 {% endfor %}
                 <th scope="col"> akcja </th>
             </tr>

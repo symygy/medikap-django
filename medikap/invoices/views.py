@@ -96,43 +96,47 @@ class DetailsInvoice(generic.View):
 	form_class = DetailInvoiceForm
 	success_url = reverse_lazy("invoices:list")
 
+	def get_current_inoice(self, invoice_id):
+		return get_object_or_404(Invoice, id=invoice_id)
+
+	def get_all_service_items(self, current_invoice):
+		return ServiceItem.objects.all().filter(faktura = current_invoice).order_by('usluga')
+
+	def get_total_invoice_value(self, all_service_items):
+		return sum(service_item.get_total_value for service_item in all_service_items)
+
+	def get_invoice_discounted_value(self, all_service_items):
+		return sum(service_item.get_discounted_value for service_item in all_service_items)
+
 	def get(self, request, invoice_id):
-		current_invoice = get_object_or_404(Invoice, id=invoice_id)
+		current_invoice = self.get_current_inoice(invoice_id)
 		form = self.form_class(instance=current_invoice)
 		request.session['invoice_id'] = current_invoice.id
 
-		services = Service.objects.all()
-		all_service_items = ServiceItem.objects.all().filter(faktura = current_invoice).order_by('usluga')
-
-		total_value = sum(service_item.get_total_value for service_item in all_service_items)
-		total_discounted_value = sum(service_item.get_discounted_value for service_item in all_service_items)
+		all_service_items = self.get_all_service_items(current_invoice)
 
 		context = {
 			'invoice': current_invoice,
 			'form' : form,
-			'services' : services,
+			'services' : Service.objects.all(),
 			'services_items' : all_service_items,
-			'total_value': total_value,
-			'total_discounted_value': total_discounted_value
+			'total_value': self.get_total_invoice_value(all_service_items),
+			'total_discounted_value': self.get_invoice_discounted_value(all_service_items)
 		}
 
 		return render(request, self.template_name, context)
 
 	def post(self, request, invoice_id):
-
-		current_invoice = get_object_or_404(Invoice, id=invoice_id)
+		current_invoice = self.get_current_inoice(invoice_id)
 		form = self.form_class(request.POST, instance=current_invoice)
 
-		all_service_items = ServiceItem.objects.all().filter(faktura = current_invoice).order_by('usluga')
-
-		total_value = sum(service_item.get_total_value for service_item in all_service_items)
-		total_discounted_value = sum(service_item.get_discounted_value for service_item in all_service_items)
+		all_service_items = self.get_all_service_items(current_invoice)
 
 		context = {
 			'invoice' : current_invoice,
 			'services_items': all_service_items,
-			'total_value' : total_value,
-			'total_discounted_value' : total_discounted_value
+			'total_value' : self.get_total_invoice_value(all_service_items),
+			'total_discounted_value' : self.get_invoice_discounted_value(all_service_items)
 		}
 
 		pdf = render_to_pdf('invoices/invoice.html', context)

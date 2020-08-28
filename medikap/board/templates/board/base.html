@@ -5,14 +5,18 @@
     <title>MEDIKAP</title>
 {% load static %}
 {% load inbox_tags %}
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!-- Bootstrap-table plugin stylesheet -->
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css">
+
+<!-- Bootstrap stylesheet -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://kit.fontawesome.com/35c7ba605c.js" crossorigin="anonymous"></script>
+
+<!-- My custom stylesheet -->
 <link rel="stylesheet" href="{% static 'board/base.css' %}">
 
 </head>
+
 <body>
 <div id="wrapper">
     <!-- NAVBAR -->
@@ -53,9 +57,13 @@
               </div>
             </div>
             <ul class="sidebar-nav">
-                <li><a class="" href="{% url 'clients:new' %}"><i class="far fa-plus-square"></i> Dodaj klienta</a></li>
-                <li><a class="" href="{% url 'companies:new' %}"><i class="far fa-plus-square"></i> Dodaj firmę</a></li>
-                <li><a class="" href="{% url 'services:new' %}"><i class="far fa-plus-square"></i> Dodaj usługę</a></li>
+                <li> <i class="far fa-plus-square"></i> Dodaj:
+                    <ul>
+                        <li><a class="" href="{% url 'clients:new' %}"><i class="fas fa-caret-right"></i> klienta</a></li>
+                        <li><a class="" href="{% url 'companies:new' %}"><i class="fas fa-caret-right"></i> firmę</a></li>
+                        <li><a class="" href="{% url 'services:new' %}"><i class="fas fa-caret-right"></i> usługę</a></li>
+                    </ul>
+                </li>
                 <li><a class="" href="{% url 'msg:new' %}"><i class="far fa-envelope"></i> Wyślij wiadomość</a></li>
                 <li><a class="" href="{% url 'invoices:new' %}"><i class="fas fa-file-invoice-dollar"></i> Przygotuj fakturę</a></li>
             </ul>
@@ -88,6 +96,33 @@
         </div>
 </div>
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+<!-- Bootstrap -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!-- Bootstrap-table plugin -->
+<script src="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js"></script>
+
+<!-- polish localization for Bootstrap-table plugin-->
+<script src="{% static 'board/bootstrap-table-pl.js' %}"></script>
+
+<!-- Font Awesome Kit -->
+<script src="https://kit.fontawesome.com/35c7ba605c.js" crossorigin="anonymous"></script>
+
+
+
+<script>
+  $(function() {
+    $('#invoices-list').bootstrapTable()
+    $('#services-list').bootstrapTable()
+    $('#clients-list').bootstrapTable()
+    $('#companies-list').bootstrapTable()
+});
+</script>
+
 <script>
     $("#menu-toggle").click( function (e){
       e.preventDefault();
@@ -118,7 +153,6 @@ function validateForm() {
     return true;
 }
 </script>
-
 
 <script>
 $('input[type="checkbox"]').click(function(){
@@ -159,35 +193,6 @@ $('input[type="checkbox"]').click(function(){
         });
 </script>
 
-
-<script>
-    $(function () {
-        $('.datetime-input').datetimepicker({
-            format:'YYYY-MM-DD'
-        });
-    });
-</script>
-
-<script type="text/javascript" src="{% static 'js/services.js' %}"></script>
-<script type="text/javascript">
-    function getToken(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-var csrftoken = getToken('csrftoken');
-</script>
-
 <script>
 $( document ).ready(function() {
     $('[data-toggle="popover"]').popover();
@@ -204,7 +209,6 @@ $( document ).ready(function() {
     $( document ).ready(function() {
         var height = $('#page-content-wrapper').height();
         var window_height = $(window).height();
-        console.log(window_height)
         if(height < 700) {
              $('#sidebar-wrapper').height(window_height-54);
         }

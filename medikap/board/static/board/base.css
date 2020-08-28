@@ -66,15 +66,26 @@
     list-style: none; /* brak punkcikow w listach itp */
 }
 
+
 .sidebar-nav li{
     text-indent: 5px;
     line-height: 40px;
+    color: #ddd;
+    list-style: none;
 }
 
 .sidebar-nav li a{
     display: block;
     text-decoration: none;
     color: #ddd;
+}
+
+#sidebar-wrapper ul ul{
+    padding-left:20px;
+}
+
+#sidebar-wrapper ul ul a{
+    line-height: 30px;
 }
 
 .sidebar-nav li a:hover{
