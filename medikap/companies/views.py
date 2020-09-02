@@ -4,6 +4,7 @@ from django.views import generic
 from .models import Company, File
 from .forms import CompanyListForm, UploadFileForm, DetailForm
 from clients.models import Client
+from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 
 class CompanyList(generic.View):
@@ -46,16 +47,20 @@ class DetailsCompany(generic.View):
     def post(self, request, company_id):
         detailed_company = get_object_or_404(Company, id=company_id)
         form = self.form_class(request.POST, instance=detailed_company)
+
         if 'update-data' in request.POST and form.is_valid():
             form.save()
-            return redirect('companies:list')
-        if 'add-files' in request.POST:
+            messages.success(request, 'Pomyślnie zaktualizowano dane firmy')
+            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
+
+        if request.is_ajax():
             uploaded_file = request.FILES['document']
             file = File(firma=detailed_company, plik=uploaded_file)
             file.save()
             return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
+
         else:
-            #dodać komunikat o błędzie
+            messages.error(request, 'Coś poszło nie tak. Twoje ostatnie działanie mogło nie zostać przetworzone poprawnie.')
             return redirect('companies:list')
 
 def delete_file(request, pk):
