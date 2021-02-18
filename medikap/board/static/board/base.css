@@ -4,7 +4,6 @@
 }
 
 .navbar-elements{
-
     text-decoration: none;
     color: #bbb;
 
@@ -32,6 +31,7 @@
     color: #2c3e50;
     text-decoration: none;
 }
+
 
 /* Sidebar */
 #sidebar-wrapper{
@@ -65,7 +65,6 @@
     padding: 0;
     list-style: none; /* brak punkcikow w listach itp */
 }
-
 
 .sidebar-nav li{
     text-indent: 5px;

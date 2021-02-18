@@ -153,7 +153,7 @@
                 <div id="frame_header_right" class="right">
                     <p>Miejsce wystawienia: Żabno</p>
                     <p>Data badania: {{ invoice.data_badania }}</p>
-                    <p>Data wystawienia: {{ invoice.data_wystawienia_faktury }}</p>
+                    <p>Data wystawienia: {{ invoice.data_wystawienia_faktury|date:"d E Y" }}</p>
                 </div>
             </div>
             <div id="frame_invoice_number">
@@ -166,10 +166,10 @@
                 <div>
                     <p>MEDIKAP</p>
                     <p>ul. Plac Grunwaldzki 15B, 33-240 Żabno</p>
-                    <p>NIP: 999999999</p>
-                    <p>REGON: 9999999</p>
+                    <p>NIP: 9930212793</p>
+                    <p>REGON: 852441210</p>
                     <p>Bank: ING Bank Śląski</p>
-                    <p>Nr konta: 12 1234 1234 1243 1243 214 1244</p>
+                    <p>Nr konta: 84 1050 1562 1000 0097 1773 0833</p>
                 </div>
             </div>
 
@@ -188,7 +188,7 @@
             <div id="frame_services">
                 <table>
                     <tr>
-                        <th style="width: 50px;"> # </th>
+                        <th style="width: 50px;"> Lp. </th>
                         <th style="width: 400px;"> Nazwa usługi</th>
                         <th style="width: 50px;"> Ilość</th>
                         <th style="width: 75px;"> Rabat [%]</th>

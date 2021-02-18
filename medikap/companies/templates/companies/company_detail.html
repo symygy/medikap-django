@@ -75,7 +75,7 @@
                     <form method="post" enctype="multipart/form-data" id="add-files-form" onsubmit="return validateFile()">
                         {% csrf_token %}
                         <input type="file" name="document" >
-                        <button id="add-files-btn" type="submit" name="add-files" class="btn btn-info"><i class="fas fa-upload"></i> Dodaj plik </button>
+                        <button id="add-files-btn" type="submit" name="add-files" class="btn btn-info float-right"><i class="fas fa-upload"></i> Dodaj plik </button>
 
                         <div id="progress-bar-div" class="progress hide-me mt-4">
                           <div id="progress-bar" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>

@@ -23,6 +23,7 @@ class InvoiceList(generic.View):
 		}
 		return render(request, self.template_name, context)
 
+
 class NewInvoice(generic.View):
 	model = Invoice
 	template_name = 'invoices/invoice_new.html'
@@ -30,22 +31,20 @@ class NewInvoice(generic.View):
 	success_url = reverse_lazy('invoices:list')
 	now = datetime.datetime.now()
 
-	def next_offer_number(self):
+	def next_invoice_number(self):
 		year = self.now.strftime("%Y")
 		month = self.now.strftime("%m")
 		last_invoice = Invoice.objects.all().last()
 		if last_invoice is not None:
 			last_invoice_number = last_invoice.numer.split("/")
-			if last_invoice_number[1] == month or last_invoice_number[2] == year :
-				invoice_number = int(last_invoice_number[0]) + 1
+			if last_invoice_number[1] == month:
+				new_invoice_number = int(last_invoice_number[0]) + 1
 			else:
-				invoice_number = 1
+				new_invoice_number = 1
 		else:
-			invoice_number = 1
+			new_invoice_number = 1
 
-		new_invoice_number = str(invoice_number) + '/' + str(month) + '/' + str(year)
-
-		return new_invoice_number
+		return str(new_invoice_number) + '/' + str(month) + '/' + str(year)
 
 	def get(self, request):
 		invoice = Invoice()
@@ -66,7 +65,7 @@ class NewInvoice(generic.View):
 
 		if form.is_valid():
 			obj = form.save(commit=False)
-			obj.numer = self.next_offer_number()
+			obj.numer = self.next_invoice_number()
 			obj.data_wystawienia_faktury = self.now
 			obj.save()
 
