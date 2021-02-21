@@ -9,10 +9,6 @@ def service_items_quantity(context):
 	all_service_items = context['services_items']
 	services = context['services']
 
-	test = list(all_service_items)
-	print(test)
-
-	print(services)
 
 	# for service in services:
 	# 	print(service)

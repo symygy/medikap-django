@@ -1,7 +1,7 @@
 from django.db import models
 from companies.models import Company
-from django.utils import timezone
 from services.models import Service
+from datetime import datetime, timedelta
 
 class Invoice(models.Model):
 	forma_platnosci_wybor = [
@@ -9,11 +9,19 @@ class Invoice(models.Model):
 		('gotowka', 'gotówka')
 	]
 
+	termin_platnosci_wybor = [
+		(0, 'dzisiaj'),
+		(7, '7 dni'),
+		(14, '14 dni'),
+		(21, '21 dni')
+	]
+
 	numer = models.CharField(max_length=30)
 	firma = models.ForeignKey(Company, on_delete=models.CASCADE)
 	forma_platnosci = models.CharField(verbose_name='forma płatności', max_length=75, choices=forma_platnosci_wybor)
 	data_badania = models.DateField()
 	data_wystawienia_faktury = models.DateTimeField()
+	termin_platnosci = models.IntegerField(verbose_name='termin płatności', default=termin_platnosci_wybor[0][0], blank=True, null=True, choices=termin_platnosci_wybor)
 	uslugi = models.ManyToManyField(Service, verbose_name='usługi')
 
 	def __str__(self):
@@ -37,3 +45,5 @@ class ServiceItem(models.Model):
 	def get_discounted_value(self):
 		discounted_value = (self.usluga.cena - (self.usluga.cena * self.rabat / 100)) * self.ilosc
 		return discounted_value
+
+

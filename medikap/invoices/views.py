@@ -3,12 +3,12 @@ from django.views import generic
 from django.urls import reverse_lazy
 from .models import Invoice, ServiceItem
 from .forms import InvoiceListForm, NewInvoiceForm, DetailInvoiceForm
-import datetime
+from datetime import datetime, timedelta
 from django.http import HttpResponse
 from medikap.utils import render_to_pdf
 from django.contrib import messages
 from services.models import Service
-from django.db.models import Sum
+
 
 
 class InvoiceList(generic.View):
@@ -29,7 +29,7 @@ class NewInvoice(generic.View):
 	template_name = 'invoices/invoice_new.html'
 	form_class = NewInvoiceForm
 	success_url = reverse_lazy('invoices:list')
-	now = datetime.datetime.now()
+	now = datetime.now()
 
 	def next_invoice_number(self):
 		year = self.now.strftime("%Y")
@@ -107,6 +107,11 @@ class DetailsInvoice(generic.View):
 	def get_invoice_discounted_value(self, all_service_items):
 		return sum(service_item.get_discounted_value for service_item in all_service_items)
 
+	def invoice_payment_deadline(self, current_invoice):
+		if current_invoice.termin_platnosci != None:
+			return current_invoice.data_wystawienia_faktury + timedelta(days=current_invoice.termin_platnosci)
+
+
 	def get(self, request, invoice_id):
 		current_invoice = self.get_current_inoice(invoice_id)
 		form = self.form_class(instance=current_invoice)
@@ -120,7 +125,8 @@ class DetailsInvoice(generic.View):
 			'services' : Service.objects.all(),
 			'services_items' : all_service_items,
 			'total_value': self.get_total_invoice_value(all_service_items),
-			'total_discounted_value': self.get_invoice_discounted_value(all_service_items)
+			'total_discounted_value': self.get_invoice_discounted_value(all_service_items),
+			'payment_deadline': self.invoice_payment_deadline(current_invoice),
 		}
 
 		return render(request, self.template_name, context)
@@ -135,7 +141,8 @@ class DetailsInvoice(generic.View):
 			'invoice' : current_invoice,
 			'services_items': all_service_items,
 			'total_value' : self.get_total_invoice_value(all_service_items),
-			'total_discounted_value' : self.get_invoice_discounted_value(all_service_items)
+			'total_discounted_value' : self.get_invoice_discounted_value(all_service_items),
+			'payment_deadline': self.invoice_payment_deadline(current_invoice),
 		}
 
 		pdf = render_to_pdf('invoices/invoice.html', context)

@@ -84,6 +84,14 @@
                             Razem: {{ total_value|floatformat:"2" }} PLN
                             <br>
                             Wartość z uwzględnieniem rabatu: {{ total_discounted_value|floatformat:"2" }} PLN
+                            <br>
+                            Forma płatności: {{ invoice.forma_platnosci }}
+                            <br>
+                            {% if payment_deadline != None %}
+                                Termin płatności: {{ payment_deadline|date:"d.m.Y" }}
+                            {% else %}
+                                Termin płatności: nie ustawiono
+                            {% endif %}
                         </strong>
                     </div>
                 </div>
