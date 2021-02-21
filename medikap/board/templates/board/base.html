@@ -134,6 +134,11 @@
 function validateForm() {
     var elements = document.querySelectorAll("[name^=uslugi]")
     var checkboxes = document.querySelectorAll('input[name="uslugi"]:checked');
+    var invoicePerson = validateFormDetail()
+
+    if (invoicePerson != true) {
+        return false
+    }
 
     if (checkboxes.length == 0) {
         alert("Musisz wybrać usługi, które chcesz dodać do faktury!");
@@ -152,6 +157,28 @@ function validateForm() {
     }
     return true;
 }
+</script>
+
+<script type="text/javascript">
+    function validateFormDetail() {
+    var rbfirma = document.getElementById("rb-firma").checked
+    var rbosoba = document.getElementById("rb-osoba-prywatna").checked
+    var selectfirma = document.getElementById("id_firma").selectedIndex
+    var selectosoba = document.getElementById("id_osoba_prywatna").selectedIndex
+    console.log(selectfirma);
+    console.log(selectosoba);
+
+     if ((rbfirma == true) && (selectfirma == 0 ))  {
+        alert("Zaznaczono, że faktura ma być wystawiona na firmę, jednak nie wybrano firmy z listy");
+        return false;
+    } else if ((rbosoba == true) && (selectosoba == 0)) {
+        alert("Zaznaczono, że faktura ma być wystawiona na osobę prywatną, jednak nie wybrano żadnej osoby z listy");
+        return false;
+    } else {
+    console.log('4')
+        return true;
+    }
+    }
 </script>
 
 <script>
@@ -216,6 +243,24 @@ $( document ).ready(function() {
             $('#sidebar-wrapper').height(height);
         }
     });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#rb-firma').prop('checked',true);
+    });
+</script>
+
+<script type="text/javascript">
+    function clearRBfirma() {
+        document.getElementById("id_firma").selectedIndex = 0;
+    }
+</script>
+
+<script type="text/javascript">
+    function clearRBosoba() {
+        document.getElementById("id_osoba_prywatna").selectedIndex = 0;
+    }
 </script>
 
 <script>

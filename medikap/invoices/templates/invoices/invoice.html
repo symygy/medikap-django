@@ -175,14 +175,21 @@
 
             <div id="frame_col2">
                 <p class="col-titles">Nabywca</p>
-                <div>
-                    <p> {{ invoice.firma}} </p>
-                    <p> ul. {{ invoice.firma.ulica }} </p>
-                    <p> {{ invoice.firma.kod_pocztowy }} {{ invoice.firma.miasto}}</p>
-                    <p> NIP: {{ invoice.firma.nip }}</p>
-                    <p> REGON: {{ invoice.firma.regon }}</p>
-                    <p> forma płatności: {{ invoice.get_forma_platnosci_display }}</p>
-                </div>
+                {% if invoice.firma != None and invoice.osoba_prywatna == None %}
+                    <div>
+                        <p> {{ invoice.firma}} </p>
+                        <p> ul. {{ invoice.firma.ulica }} </p>
+                        <p> {{ invoice.firma.kod_pocztowy }} {{ invoice.firma.miasto}}</p>
+                        <p> NIP: {{ invoice.firma.nip }}</p>
+                        <p> REGON: {{ invoice.firma.regon }}</p>
+                        <p> forma płatności: {{ invoice.get_forma_platnosci_display }}</p>
+                    </div>
+                {% endif %}
+                {% if invoice.firma == None and invoice.osoba_prywatna != None %}
+                    <div>
+                        <p>{{ invoice.osoba_prywatna }}</p>
+                    </div>
+                {% endif %}
             </div>
 
             <div id="frame_services">

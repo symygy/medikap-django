@@ -23,7 +23,16 @@
                 <tr>
                 <th scope="row">{{ forloop.counter }}</th>
                     <td><a href="{% url 'invoices:detail' invoice_id=invoice.id %}">{{ invoice.numer }}</a></td>
-                    <td>{{ invoice.firma  }}</td>
+                    {% if invoice.firma != None%}
+                        <td>{{ invoice.firma  }}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    {% if invoice.osoba_prywatna != None%}
+                    <td>{{ invoice.osoba_prywatna  }}</td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
                     <td>{{ invoice.get_forma_platnosci_display  }}</td>
                     <td>{{ invoice.data_wystawienia_faktury  }}</td>
                 </tr>

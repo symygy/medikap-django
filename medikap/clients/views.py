@@ -3,7 +3,6 @@ from django.views import generic
 from django.urls import reverse_lazy
 from .models import Client
 from .forms import ClientsTabularList, ClientDatePicker
-import datetime
 
 class ClientList(generic.View):
 	template_name = 'clients/client_list.html'

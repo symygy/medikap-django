@@ -1,6 +1,7 @@
 from django.db import models
 from companies.models import Company
 from services.models import Service
+from clients.models import Client
 from datetime import datetime, timedelta
 
 class Invoice(models.Model):
@@ -17,7 +18,8 @@ class Invoice(models.Model):
 	]
 
 	numer = models.CharField(max_length=30)
-	firma = models.ForeignKey(Company, on_delete=models.CASCADE)
+	firma = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
+	osoba_prywatna = models.ForeignKey(Client, on_delete=models.CASCADE, blank=True, null=True)
 	forma_platnosci = models.CharField(verbose_name='forma płatności', max_length=75, choices=forma_platnosci_wybor)
 	data_badania = models.DateField()
 	data_wystawienia_faktury = models.DateTimeField()

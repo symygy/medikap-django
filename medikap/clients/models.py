@@ -19,10 +19,9 @@ class Client(models.Model):
 	data_badania = models.DateField("data badania")
 	data_waznosci_badania = models.DateField("data upływu badania")
 	podstawa_prawna = models.CharField("podstawa prawna", max_length=50, choices=podstawa_prawna_wybor)
-	#badany_60 = models.BooleanField("badany ukończył 60 rok życia", default=False)
 	komentarz = models.TextField("komentarz", blank=True)
 	pracodawca = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
 
 	def __str__(self):
-		return f'{self.imie}_{self.nazwisko}'
+		return f'{self.nazwisko} {self.imie}'
 

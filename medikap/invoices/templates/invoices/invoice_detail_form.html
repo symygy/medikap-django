@@ -7,10 +7,18 @@
                 {{ form.numer | as_crispy_field}}
             </div>
         </div>
-        <div class="form-row">
-            <div class="col-lg-12">
+
+        <div class="form-check" onclick="clearRBosoba()">
+            <input class="form-check-input" type="radio" name="rb" id="rb-firma">
+            <label class="form-check-label col-lg-12" for="rb-firma">
                 {{ form.firma | as_crispy_field}}
-            </div>
+            </label>
+        </div>
+        <div class="form-check" onclick="clearRBfirma()">
+            <input class="form-check-input" type="radio" name="rb" id="rb-osoba-prywatna">
+            <label class="form-check-label col-lg-12" for="rb-osoba-prywatna">
+                {{ form.osoba_prywatna | as_crispy_field}}
+            </label>
         </div>
         <div class="form-row">
             <div class="col-lg-3">

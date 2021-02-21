@@ -29,7 +29,7 @@
             <div class="card-body">
                 <h5 class="card-title">Aktualizowanie danych</h5>
                 <p class="card-text">
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" onsubmit="return validateFormDetail()">
                         {% csrf_token %}
                         {% include 'invoices/invoice_detail_form.html' %}
                         <br>

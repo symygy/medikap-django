@@ -34,6 +34,7 @@
             </div>
             <div class="col-md-5 offset-md-2">
                 <h4>Nabywca</h4>
+                {% if invoice.firma != None and invoice.osoba_prywatna == None %}
                 <div>
                     <br>{{ invoice.firma}}
                     <br>ul. {{ invoice.firma.ulica }}, {{ invoice.firma.kod_pocztowy }} {{ invoice.firma.miasto}}
@@ -41,6 +42,12 @@
                     <br>REGON: {{ invoice.firma.regon }}
                     <br>forma płatności: {{ invoice.get_forma_platnosci_display }}
                 </div>
+                {% endif %}
+                {% if invoice.firma == None and invoice.osoba_prywatna != None %}
+                <div>
+                    <br>{{ invoice.osoba_prywatna}}
+                </div>
+                {% endif %}
             </div>
         </div>
 
