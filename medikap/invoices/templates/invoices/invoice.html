@@ -152,7 +152,7 @@
                 </div>
                 <div id="frame_header_right" class="right">
                     <p>Miejsce wystawienia: Żabno</p>
-                    <p>Data badania: {{ invoice.data_badania }}</p>
+                    <p>Data badania: {{ invoice.data_badania|date:"d E Y" }}</p>
                     <p>Data wystawienia: {{ invoice.data_wystawienia_faktury|date:"d E Y" }}</p>
                 </div>
             </div>
@@ -181,7 +181,7 @@
                         <p> ul. {{ invoice.firma.ulica }} </p>
                         <p> {{ invoice.firma.kod_pocztowy }} {{ invoice.firma.miasto}}</p>
                         <p> NIP: {{ invoice.firma.nip }}</p>
-                        <p> REGON: {{ invoice.firma.regon }}</p>
+                        <p> REGON: {{ invoice.firma.regon|default_if_none:"brak"  }}</p>
                         <p> forma płatności: {{ invoice.get_forma_platnosci_display }}</p>
                     </div>
                 {% endif %}

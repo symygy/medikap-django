@@ -17,11 +17,11 @@
                 <tr>
                 <th scope="row">{{ forloop.counter }}</th>
                     <td><a href="{% url 'companies:detail' company_id=company.id %}">{{ company.nazwa  }}</a></td>
-                    <td>{{ company.nip  }}</td>
-                    <td>{{ company.regon  }}</td>
-                    <td>{{ company.ulica  }}</td>
-                    <td>{{ company.miasto  }}</td>
-                    <td>{{ company.kod_pocztowy  }}</td>
+                    <td>{{ company.nip|default_if_none:"-" }}</td>
+                    <td>{{ company.regon|default_if_none:"-" }}</td>
+                    <td>{{ company.ulica|default_if_none:"-" }}</td>
+                    <td>{{ company.miasto|default_if_none:"-" }}</td>
+                    <td>{{ company.kod_pocztowy|default_if_none:"-"}}</td>
                 </tr>
             {% endfor %}
             </tbody>

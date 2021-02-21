@@ -9,7 +9,7 @@ class ClientsTabularList(forms.ModelForm):
 	class Meta:
 		model = Client
 		fields = '__all__'
-		exclude = ['badany_60', 'komentarz']
+		exclude = ['komentarz']
 
 class ClientDatePicker(forms.ModelForm):
 	class Meta:

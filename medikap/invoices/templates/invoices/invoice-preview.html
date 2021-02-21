@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-5 offset-md-3">
                 <p>Miejsce wystawienia: Żabno</p>
-                <p>Data badania: {{ invoice.data_badania }}</p>
+                <p>Data badania: {{ invoice.data_badania|date:"d E Y" }}</p>
                 <p>Data wystawienia: {{ invoice.data_wystawienia_faktury|date:"d E Y" }}</p>
             </div>
         </div>
@@ -39,7 +39,7 @@
                     <br>{{ invoice.firma}}
                     <br>ul. {{ invoice.firma.ulica }}, {{ invoice.firma.kod_pocztowy }} {{ invoice.firma.miasto}}
                     <br>NIP: {{ invoice.firma.nip }}
-                    <br>REGON: {{ invoice.firma.regon }}
+                    <br>REGON: {{ invoice.firma.regon|default_if_none:"brak" }}
                     <br>forma płatności: {{ invoice.get_forma_platnosci_display }}
                 </div>
                 {% endif %}
@@ -95,7 +95,7 @@
                             Forma płatności: {{ invoice.forma_platnosci }}
                             <br>
                             {% if payment_deadline != None %}
-                                Termin płatności: {{ payment_deadline|date:"d.m.Y" }}
+                                Termin płatności: {{ payment_deadline|date:"d.m.Y"|default_if_none:"-" }}
                             {% else %}
                                 Termin płatności: nie ustawiono
                             {% endif %}

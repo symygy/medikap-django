@@ -22,8 +22,8 @@
                                         <tr>
                                             <th scope="row">{{ forloop.counter }}</th>
                                             <td>{{ client.imie }} {{ client.nazwisko }} </td>
-                                            <td>{{ client.email }} </td>
-                                            <td>{{ client.numer_telefonu }} </td>
+                                            <td>{{ client.email|default_if_none:"-" }} </td>
+                                            <td>{{ client.numer_telefonu|default_if_none:"-" }} </td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
@@ -52,9 +52,9 @@
                                     {% for company in last_companies %}
                                         <tr>
                                             <th scope="row">{{ forloop.counter }}</th>
-                                            <td>{{ company.nazwa }}</td>
-                                            <td>{{ company.miasto }} </td>
-                                            <td>{{ company.nip }} </td>
+                                            <td>{{ company.nazwa|default_if_none:"-" }}</td>
+                                            <td>{{ company.miasto|default_if_none:"-" }} </td>
+                                            <td>{{ company.nip|default_if_none:"-" }} </td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
@@ -75,7 +75,7 @@
                                     <tr>
                                         <th scope="col"></th>
                                         <th scope="col">numer</th>
-                                        <th scope="col">firma</th>
+                                        <th scope="col">nabywca</th>
                                         <th scope="col">data wystawienia</th>
                                     </tr>
                                 </thead>
@@ -83,9 +83,13 @@
                                     {% for invoice in last_invoices %}
                                         <tr>
                                             <th scope="row">{{ forloop.counter }}</th>
-                                            <td>{{ invoice.numer }}</td>
-                                            <td>{{ invoice.firma }} </td>
-                                            <td>{{ invoice.data_wystawienia_faktury }} </td>
+                                            <td>{{ invoice.numer|default_if_none:"-" }}</td>
+                                            {% if invoice.firma != None%}
+                                                <td>{{ invoice.firma }}</td>
+                                            {% else %}
+                                                <td>{{ invoice.osoba_prywatna }}</td>
+                                            {% endif %}
+                                            <td>{{ invoice.data_wystawienia_faktury|default_if_none:"-" }} </td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>

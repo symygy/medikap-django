@@ -9,8 +9,6 @@ from medikap.utils import render_to_pdf
 from django.contrib import messages
 from services.models import Service
 
-
-
 class InvoiceList(generic.View):
 	template_name = 'invoices/invoice_list.html'
 	form = InvoiceListForm

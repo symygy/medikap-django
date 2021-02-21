@@ -171,6 +171,9 @@ function validateForm() {
      if ((rbfirma == true) && (selectfirma == 0 ))  {
         alert("Zaznaczono, że faktura ma być wystawiona na firmę, jednak nie wybrano firmy z listy");
         return false;
+    } else if ((rbfirma == false) && (rbosoba == false)) {
+        alert("Nie wybrano na kogo ma zostać wystawiona faktura");
+        return false;
     } else if ((rbosoba == true) && (selectosoba == 0)) {
         alert("Zaznaczono, że faktura ma być wystawiona na osobę prywatną, jednak nie wybrano żadnej osoby z listy");
         return false;
@@ -245,11 +248,7 @@ $( document ).ready(function() {
     });
 </script>
 
-<script>
-    $(document).ready(function() {
-        $('#rb-firma').prop('checked',true);
-    });
-</script>
+
 
 <script type="text/javascript">
     function clearRBfirma() {
