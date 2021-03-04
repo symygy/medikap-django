@@ -2,19 +2,16 @@
 {% load static %}
 
     <fieldset>
-        <div class="form-check" onclick="clearRBosoba()">
-            <input class="form-check-input" type="radio" name="rb" id="rb-firma">
-            <label class="form-check-label col-lg-4" for="rb-firma">
+        <div class="form-row">
+            <div class="col-lg-4" onclick="clearRBosoba()">
                 {{ form.firma | as_crispy_field}}
-            </label>
+            </div>
         </div>
-        <div class="form-check" onclick="clearRBfirma()">
-            <input class="form-check-input" type="radio" name="rb" id="rb-osoba-prywatna">
-            <label class="form-check-label col-lg-4" for="rb-osoba-prywatna">
+        <div class="form-row">
+            <div class="col-lg-4" onclick="clearRBfirma()">
                 {{ form.osoba_prywatna | as_crispy_field}}
-            </label>
+            </div>
         </div>
-
         <div class="form-row">
             <div class="col-lg-2">
                 {{ form.forma_platnosci | as_crispy_field}}
@@ -31,6 +28,23 @@
 
         <div class="form-row">
             <div class="col-lg-4">
+                {{ form.komentarz1 | as_crispy_field}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-4">
+                {{ form.komentarz2 | as_crispy_field}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-4">
+                {{ form.komentarz3 | as_crispy_field}}
+            </div>
+        </div>
+
+
+        <div class="form-row">
+            <div class="col-lg-4">
                 {% for field in form.uslugi %}
                     <div class="my-4">
                         <div>{{ field }}</div>
@@ -41,7 +55,6 @@
                             <input class="form-control hide-me" data-toggle="tooltip" title="wartość rabatu w %" type="text" name='discount-{{forloop.counter0}}' id='discount-{{forloop.counter0}}' value="0">
                         </div>
                     </div>
-
                 {% endfor %}
             </div>
         </div>

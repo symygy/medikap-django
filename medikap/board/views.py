@@ -3,8 +3,10 @@ from msg.models import Message
 from clients.models import Client
 from companies.models import Company
 from invoices.models import Invoice
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def board(request):
 	template_name = 'board/summary.html'
 	last_clients = Client.objects.all().order_by('-id')[:5]

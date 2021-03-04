@@ -10,7 +10,7 @@ class InvoiceListForm(forms.ModelForm):
 	class Meta:
 		model = Invoice
 		fields = '__all__'
-		exclude = ['data_badania', 'rabat', 'uslugi', 'termin_platnosci']
+		exclude = ['data_badania', 'rabat', 'uslugi', 'termin_platnosci', 'komentarz1', 'komentarz2', 'komentarz3']
 
 class NewInvoiceForm(forms.ModelForm):
 

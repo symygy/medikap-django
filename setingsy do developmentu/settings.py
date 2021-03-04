@@ -25,7 +25,6 @@ SECRET_KEY = '!9_t&6iu*%d1gufe7nbjl#$1^hn9=tb%o&7f5d%h5m99dzx(tb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = ['medikap.atthost24.pl', '185.255.40.40']
 ALLOWED_HOSTS = ['https://medikap-django.herokuapp.com/', '127.0.0.1']
 
 

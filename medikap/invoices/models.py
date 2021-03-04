@@ -25,6 +25,9 @@ class Invoice(models.Model):
 	data_wystawienia_faktury = models.DateTimeField()
 	termin_platnosci = models.IntegerField(verbose_name='termin płatności', default=termin_platnosci_wybor[0][0], blank=True, null=True, choices=termin_platnosci_wybor)
 	uslugi = models.ManyToManyField(Service, verbose_name='usługi')
+	komentarz1 = models.CharField(verbose_name='komentarz 1', blank=True, null=True, max_length=50)
+	komentarz2 = models.CharField(verbose_name='komentarz 2', blank=True, null=True, max_length=50)
+	komentarz3 = models.CharField(verbose_name='komentarz 3', blank=True, null=True, max_length=50)
 
 	def __str__(self):
 		return self.numer

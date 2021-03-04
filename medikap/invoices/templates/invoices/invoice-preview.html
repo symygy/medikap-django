@@ -22,7 +22,7 @@
 
         <div class="row mt-4">
             <div class="col-md-5">
-                <h4>Sprzedawca</h4>
+                <h4>SPRZEDAWCA</h4>
                 <div>
                     <br>MEDIKAP
                     <br>ul. Plac Grunwaldzki 15B, 33-240 Żabno
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="col-md-5 offset-md-2">
-                <h4>Nabywca</h4>
+                <h4>NABYWCA</h4>
                 {% if invoice.firma != None and invoice.osoba_prywatna == None %}
                 <div>
                     <br>{{ invoice.firma}}
@@ -41,11 +41,17 @@
                     <br>NIP: {{ invoice.firma.nip }}
                     <br>REGON: {{ invoice.firma.regon|default_if_none:"brak" }}
                     <br>forma płatności: {{ invoice.get_forma_platnosci_display }}
+                    <br><b>{{ invoice.komentarz1|default_if_none:"" }}</b>
+                    <br>{{ invoice.komentarz2|default_if_none:"" }}
+                    <br>{{ invoice.komentarz3|default_if_none:"" }}
                 </div>
                 {% endif %}
                 {% if invoice.firma == None and invoice.osoba_prywatna != None %}
                 <div>
                     <br>{{ invoice.osoba_prywatna}}
+                    <br><b>{{ invoice.komentarz1|default_if_none:"" }}</b>
+                    <br>{{ invoice.komentarz2|default_if_none:"" }}
+                    <br>{{ invoice.komentarz3|default_if_none:"" }}
                 </div>
                 {% endif %}
             </div>

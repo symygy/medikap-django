@@ -7,18 +7,15 @@
                 {{ form.numer | as_crispy_field}}
             </div>
         </div>
-
-        <div class="form-check" onclick="clearRBosoba()">
-            <input class="form-check-input" type="radio" name="rb" id="rb-firma">
-            <label class="form-check-label col-lg-12" for="rb-firma">
+        <div class="form-row">
+            <div class="col-lg-12" onclick="clearRBosoba()">
                 {{ form.firma | as_crispy_field}}
-            </label>
+            </div>
         </div>
-        <div class="form-check" onclick="clearRBfirma()">
-            <input class="form-check-input" type="radio" name="rb" id="rb-osoba-prywatna">
-            <label class="form-check-label col-lg-12" for="rb-osoba-prywatna">
+        <div class="form-row">
+            <div class="col-lg-12" onclick="clearRBfirma()">
                 {{ form.osoba_prywatna | as_crispy_field}}
-            </label>
+            </div>
         </div>
         <div class="form-row">
             <div class="col-lg-3">
@@ -35,7 +32,22 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
+                {{ form.komentarz1 | as_crispy_field}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-12">
+                {{ form.komentarz2 | as_crispy_field}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-12">
+                {{ form.komentarz3 | as_crispy_field}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-lg-12">
                 <br>
                 <h5>Wybierz usługi: <i class="far fa-question-circle fa-lg" data-toggle="popover" title="Podpowiedź" data-placement="bottom" data-content="Po dokonaniu zmiany w pozycjach obecnych na fakturze, należy kliknąć: Aktualizuj dane. Wtedy pojawi się odpowiednie pole tekstowe do wpisania ilości."></i></h5>
 

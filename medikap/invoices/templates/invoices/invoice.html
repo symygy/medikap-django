@@ -22,22 +22,22 @@
             }
             @frame header_frame {           /* Static Frame */
                 -pdf-frame-content: frame_header_right;
-                left: 300pt; width: 245pt; top: 50pt; height: 150pt;
+                left: 300pt; width: 245pt; top: 50pt; height: 80pt;
             }
 
             @frame content_frame {          /* Content Frame */
                 -pdf-frame-content: frame_invoice_number;
-                left: 50pt; width: 512pt; top: 170pt; height: 30pt;
+                left: 50pt; width: 512pt; top: 140pt; height: 30pt;
             }
 
             @frame col1 {
                 -pdf-frame-content: frame_col1;
-                left: 50pt; width: 245pt; top: 220pt; height: 130pt;
+                left: 50pt; width: 245pt; top: 190pt; height: 180pt;
             }
 
             @frame col2 {
                 -pdf-frame-content: frame_col2;
-                left: 300pt; width: 245pt; top: 220pt; height: 130pt;
+                left: 300pt; width: 245pt; top: 190pt; height: 180pt;
             }
 
             @frame frame_services {
@@ -123,6 +123,10 @@
             font-family: "Roboto-bold", sans-serif;
         }
 
+        .komentarz {
+            font-family: "Roboto-bold", sans-serif;
+        }
+
         .vat {
             font-size: 9px;
         }
@@ -139,6 +143,11 @@
          }
          td {
             height: 25px;
+         }
+
+         .longline {
+            max-width: 245px;
+            word-wrap: break-word;
          }
 
 
@@ -162,7 +171,7 @@
                 </div>
             </div>
             <div id="frame_col1">
-                <p class="col-titles">Sprzedawca</p>
+                <p class="col-titles">SPRZEDAWCA</p>
                 <div>
                     <p>MEDIKAP</p>
                     <p>ul. Plac Grunwaldzki 15B, 33-240 Żabno</p>
@@ -174,7 +183,7 @@
             </div>
 
             <div id="frame_col2">
-                <p class="col-titles">Nabywca</p>
+                <p class="col-titles">NABYWCA</p>
                 {% if invoice.firma != None and invoice.osoba_prywatna == None %}
                     <div>
                         <p> {{ invoice.firma}} </p>
@@ -183,11 +192,17 @@
                         <p> NIP: {{ invoice.firma.nip }}</p>
                         <p> REGON: {{ invoice.firma.regon|default_if_none:"brak"  }}</p>
                         <p> forma płatności: {{ invoice.get_forma_platnosci_display }}</p>
+                        <p class="komentarz">{{ invoice.komentarz1|default_if_none:"" }}</p>
+                        <p> {{ invoice.komentarz2|default_if_none:"" }}</p>
+                        <p> {{ invoice.komentarz3|default_if_none:"" }}</p>
                     </div>
                 {% endif %}
                 {% if invoice.firma == None and invoice.osoba_prywatna != None %}
                     <div>
                         <p>{{ invoice.osoba_prywatna }}</p>
+                        <p class="komentarz">{{ invoice.komentarz1|default_if_none:"" }}</p>
+                        <p>{{ invoice.komentarz2|default_if_none:"" }}</p>
+                        <p>{{ invoice.komentarz3|default_if_none:"" }}</p>
                     </div>
                 {% endif %}
             </div>
@@ -254,7 +269,7 @@
 
             <div id="footer_content" class="footer">
                 <span>
-                    MEDIKAP Maria K.
+                    MEDIKAP Maria Kapa
                     <br>Plac Grunwaldzki 15B, 33-240 Żabno
                     <br>e-mail: gabinet.medikap@gmail.com tel: 539 993 332
                     <br>NIP: 9930212793 REGON: 852441210
